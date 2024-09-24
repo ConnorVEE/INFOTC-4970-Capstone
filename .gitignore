@@ -1,1 +1,75 @@
+# Python and Django specific ignores
+*.pyc
+__pycache__/
+db.sqlite3
+*.sqlite3
+env/
 venv/
+ENV/
+*.env
+*.log
+instance/
+media/
+staticfiles/
+static/
+.idea/
+.mypy_cache/
+.pytest_cache/
+.vscode/
+
+# Exclude compiled migration files
+*.py[cod]
+migrations/
+
+# Django secret keys and environment variables
+.env
+*.env
+
+# Node.js and React specific ignores
+node_modules/
+npm-debug.log
+yarn-error.log
+.DS_Store
+
+# Build output for React
+build/
+
+# Ignore coverage reports
+coverage/
+*.cover
+*.log
+*.pid
+*.seed
+*.bak
+*.backup
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+
+# Distribution / packaging
+.Python
+*.egg
+*.egg-info/
+dist/
+build/
+pip-log.txt
+
+# IDE-specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.sublime-settings
+
+# MacOS specific
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VS Code specific
+.vscode/
+
+# Generated files
+*.bak
+*.swp
+*.tmp
