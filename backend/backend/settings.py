@@ -56,6 +56,8 @@ INSTALLED_APPS = [ #added api, rest_framework, and corsheaders
     # Modules
     "listings", 
     "users",
+    "messages",
+    "transactions"
 
     # Frameworks n stuff, I think
     "rest_framework",
