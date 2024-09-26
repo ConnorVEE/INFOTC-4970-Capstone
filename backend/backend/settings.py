@@ -29,7 +29,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"] # we're all allowed to host
 
-REST_FRAMEWORK = { # got this from a youtube video, its the rest framework authentication token classes
+# got this from a youtube video, its the rest framework authentication token classes
+REST_FRAMEWORK = { 
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
@@ -56,8 +57,8 @@ INSTALLED_APPS = [ #added api, rest_framework, and corsheaders
     # Modules
     "listings", 
     "users",
-    "messages",
-    "transactions"
+    "messaging",
+    "transactions",
 
     # Frameworks n stuff, I think
     "rest_framework",
