@@ -51,7 +51,12 @@ INSTALLED_APPS = [ #added api, rest_framework, and corsheaders
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Modules
     "api", 
+    "users",
+
+    # Frameworks n stuff, I think
     "rest_framework",
     "corsheaders",
 ]
@@ -142,3 +147,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+# Tells Django to use our custom User model, as opposed to the model that comes 
+# default with Django
+AUTH_USER_MODEL = 'users.User'
