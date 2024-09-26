@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta #for tokens
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -151,3 +152,9 @@ CORS_ALLOW_CREDENTIALS = True
 # Tells Django to use our custom User model, as opposed to the model that comes 
 # default with Django
 AUTH_USER_MODEL = 'users.User'
+
+# Where uploaded media files will be stored on the file system
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# The URL to access media files via the web
+MEDIA_URL = '/media/'
