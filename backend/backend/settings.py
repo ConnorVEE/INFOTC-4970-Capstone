@@ -54,7 +54,7 @@ INSTALLED_APPS = [ #added api, rest_framework, and corsheaders
     'django.contrib.staticfiles',
 
     # Modules
-    "api", 
+    "listings", 
     "users",
 
     # Frameworks n stuff, I think
