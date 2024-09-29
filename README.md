@@ -1,9 +1,8 @@
 # INFOTC-4970-Capstone
 
+## Text present in generated React README.md
 
-# Text present in generated React README.md
-
-# Getting Started with Create React App
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
