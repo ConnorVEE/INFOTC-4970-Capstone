@@ -16,16 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-
-# Added so media (profile pics) can be accessed during development. Will have to be changed later
+# Added so that media (profile pics, etc.) can be accessed during development. Will have to be changed later
 from django.conf import settings
 from django.conf.urls.static import static
+# Imports for JWT authentication
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('api/users/', include('users.urls')),
-
     path('api/', include('listings.urls')),
     path('api/', include('messaging.urls')),
     path('api/', include('transactions.urls')),
