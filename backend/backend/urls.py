@@ -32,5 +32,7 @@ urlpatterns = [
     path('api/', include('transactions.urls')),
 ]
 
+# This line here allows photos, media, etc. to be served by the MEDIA_URL while we are in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
