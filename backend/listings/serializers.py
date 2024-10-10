@@ -1,9 +1,6 @@
 from rest_framework import serializers
 from .models import Listing, ListingImage
 
-from rest_framework import serializers
-from .models import Listing, ListingImage
-
 # Serializer for Images
 class ListingImageSerializer(serializers.ModelSerializer):
     class Meta:
