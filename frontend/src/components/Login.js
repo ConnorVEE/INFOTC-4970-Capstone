@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import axiosInstance from '../axiosInstance'; 
+import axiosInstance from '../api/axiosInstance'; 
 import './Login.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState(''); // Add state for error messages
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             // Use the axiosInstance to make the POST request
-            const response = await axiosInstance.post('/login', {
+            const response = await axiosInstance.post('users/login/', {
                 username,
                 password,
             });
-            console.log('Login successful:', response.data); // Access token is sent back as a response
+            console.log('Login successful:', response.data);
     
         } catch (error) {
             if (error.response) {

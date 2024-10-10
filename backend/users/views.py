@@ -50,11 +50,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             print(f"Invalid credentials for username: {request.data.get('username')}")
             return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        # Extract tokens
         refresh_token = serializer.validated_data.get('refresh')
         access_token = serializer.validated_data.get('access')
 
-        # Create response
         response = Response({
             'success': 'Login successful'
         }, status = status.HTTP_200_OK)

@@ -20,7 +20,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 # Imports for JWT authentication
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework_simplejwt.views import TokenRefreshView
 
 
 urlpatterns = [
@@ -30,6 +30,8 @@ urlpatterns = [
     path('api/', include('listings.urls')),
     path('api/', include('messaging.urls')),
     path('api/', include('transactions.urls')),
+
+    path('api/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
 
 if settings.DEBUG:
