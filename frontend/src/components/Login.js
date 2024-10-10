@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import axios from 'axios';
+import axiosInstance from '../axiosInstance'; 
 import './Login.css';
 
 const Login = () => {
@@ -11,25 +10,19 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/login', {
+            // Use the axiosInstance to make the POST request
+            const response = await axiosInstance.post('/login', {
                 username,
                 password,
             });
-            console.log(response.data); // Handle successful login here
-
+            console.log('Login successful:', response.data); // Access token is sent back as a response
+    
         } catch (error) {
             if (error.response) {
-                // This means the request was made and the server responded with a status code
-                // that falls out of the range of 2xx
-                setErrorMessage(error.response.data); // Set error message to state
-            } else if (error.request) {
-                // The request was made but no response was received
-                setErrorMessage('No response from server. Please try again later.');
+                setErrorMessage(error.response.data.error || 'Login failed');
             } else {
-                // Something happened in setting up the request that triggered an error
-                setErrorMessage('Error: ' + error.message);
+                setErrorMessage('No response from server. Please try again later.');
             }
-            console.error('Login failed:', errorMessage); // Log the error
         }
     };
 
@@ -57,7 +50,7 @@ const Login = () => {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            {errorMessage && <div className="error-message">{errorMessage}</div>} {/* Display error messages */}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
         </div>
     );
 };

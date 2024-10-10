@@ -45,12 +45,37 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         try:
             serializer.is_valid(raise_exception=True)
+
         except Exception as e:
             print(f"Invalid credentials for username: {request.data.get('username')}")
             return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
-        print(f"Login successful for username: {request.data.get('username')}")
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+        # Extract tokens
+        refresh_token = serializer.validated_data.get('refresh')
+        access_token = serializer.validated_data.get('access')
 
+        # Create response
+        response = Response({
+            'success': 'Login successful'
+        }, status = status.HTTP_200_OK)
+
+        # Set tokens as HttpOnly cookies
+        response.set_cookie(
+            key = 'access_token',
+            value = access_token,
+            httponly = True,
+            secure = False,  # Set this to False in development but True in production
+            samesite = 'Lax',
+        )
+
+        response.set_cookie(
+            key = 'refresh_token',
+            value = refresh_token,
+            httponly = True,
+            secure = False,  # Set this to False in development but True in production
+            samesite = 'Lax',
+        )
+
+        return response
 
 
