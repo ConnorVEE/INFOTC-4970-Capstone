@@ -1,5 +1,6 @@
-// src/axiosInstance.js
 import axios from 'axios';
+import { logout }from '../services/auth';
+
 
 const axiosInstance = axios.create({
     // Our backend
@@ -50,9 +51,8 @@ axiosInstance.interceptors.response.use(
                 return axiosInstance(originalRequest);
 
             } catch (err) {
-                // Redirect to login if token refresh fails
-                console.error('Refresh token expired, logging out user', err);
-                window.location.href = '/login';  
+                // Logs user out upon failure 
+                logout();
             }
         }
 

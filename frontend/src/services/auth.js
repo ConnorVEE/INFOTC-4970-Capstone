@@ -1,4 +1,4 @@
-import axiosInstance from './api'; 
+import axiosInstance from '../api/axiosInstance'; 
 
 // Log out function
 const logout = () => {
@@ -19,7 +19,6 @@ const login = async (username, password) => {
             password,
         });
 
-        console.log('Login successful:', response.data);
         return response.data; 
 
     } catch (error) {

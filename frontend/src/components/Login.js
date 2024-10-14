@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axiosInstance from '../api/axiosInstance'; 
+import { login } from '../services/auth';
 import './Login.css';
 
 const Login = () => {
@@ -10,13 +10,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Use the axiosInstance to make the POST request
-            const response = await axiosInstance.post('users/login/', {
-                username,
-                password,
-            });
-            console.log('Login successful:', response.data);
-    
+            const response = await login(username, password);  // Call the login function
+            console.log('Login successful:', response);
+
         } catch (error) {
             if (error.response) {
                 setErrorMessage(error.response.data.error || 'Login failed');
