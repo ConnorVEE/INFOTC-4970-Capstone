@@ -1,7 +1,11 @@
 # messaging/urls.py
 from django.urls import path
-from . import views  # Import your views here
+from .views import ConversationView, MessageView
 
 urlpatterns = [
-    # Define your URL patterns here
+    # URL for listing all conversations and creating a new one
+    path('conversations/', ConversationView.as_view(), name='conversation-list-create'),
+    
+    # URL for listing all messages in a conversation and creating a new message
+    path('conversations/<int:conversation_id>/messages/', MessageView.as_view(), name='message-list-create')
 ]
