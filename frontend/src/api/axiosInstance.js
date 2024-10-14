@@ -13,6 +13,7 @@ const refreshToken = async () => {
     try {
         const response = await axiosInstance.post('/refresh');
         const newAccessToken = response.data.access;
+
         return newAccessToken;
 
     } catch (error) {
@@ -34,7 +35,8 @@ axiosInstance.interceptors.response.use(
 
         // If the error is due to an expired access token (401 error) and the request hasn't been retried yet
         if (error.response && error.response.status === 401 && !originalRequest._retry) {
-            originalRequest._retry = true;  // Mark the request as being retried
+            // Mark the request as being retried
+            originalRequest._retry = true;  
 
             try {
                 // Attempt to refresh the access token
@@ -48,8 +50,9 @@ axiosInstance.interceptors.response.use(
                 return axiosInstance(originalRequest);
 
             } catch (err) {
+                // Redirect to login if token refresh fails
                 console.error('Refresh token expired, logging out user', err);
-                window.location.href = '/login';  // Redirect to login if token refresh fails
+                window.location.href = '/login';  
             }
         }
 

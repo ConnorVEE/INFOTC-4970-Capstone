@@ -27,6 +27,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 # Serializer for Logging in
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
