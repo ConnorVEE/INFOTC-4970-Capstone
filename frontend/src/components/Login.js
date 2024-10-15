@@ -8,9 +8,25 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // handle input changes and clear error message when user types again
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+
+        setErrorMessage('');
+
+        // Update the state based on which input is changing
+        if (name === 'username') {
+            setUsername(value);
+        } else if (name === 'password') {
+            setPassword(value);
+        }
+    };
+
+    // handle logging in
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setErrorMessage('');
 
         try {
             // Call the login function
@@ -61,8 +77,9 @@ const Login = () => {
                     <label>Username:</label>
                     <input
                         type="text"
+                        name="username"
                         value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={handleInputChange}
                         required
                         disabled={loading} 
                     />
@@ -72,8 +89,9 @@ const Login = () => {
                     <label>Password:</label>
                     <input
                         type="password"
+                        name="password"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={handleInputChange}
                         required
                         disabled={loading} 
                     />
