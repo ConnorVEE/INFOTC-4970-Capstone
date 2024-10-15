@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../services/auth';
 import './Login.css';
 
@@ -7,6 +8,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     // handle input changes and clear error message when user types again
     const handleInputChange = (e) => {
@@ -33,6 +35,8 @@ const Login = () => {
             const response = await login(username, password); 
             console.log('Login successful:', response);
             setLoading(false);
+
+            navigate('/home');
 
         } catch (error) {
 

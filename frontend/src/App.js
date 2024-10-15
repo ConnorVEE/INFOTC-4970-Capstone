@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Login from './components/Login'; // Ensure this path is correct
+import Home from './components/Home';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           {/* <Route path="/register" element={<Register />} /> */}
 
           {/* Home Route (protected, later) */}
-          <Route path="/home" element={<h1>Home Page (Protected)</h1>} />
+          <Route path="/home" element={< Home />} />
 
         </Routes>
 
