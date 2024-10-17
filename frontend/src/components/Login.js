@@ -73,12 +73,12 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <h2>Login</h2>
+            <h2>Login to Mizzou Marketplace</h2>
 
             <form onSubmit={handleSubmit}>
 
                 <div>
-                    <label>Username:</label>
+                    <label>Username: </label>
                     <input
                         type="text"
                         name="username"
@@ -90,14 +90,14 @@ const Login = () => {
                 </div>
 
                 <div>
-                    <label>Password:</label>
+                    <label>Password: </label>
                     <input
                         type="password"
                         name="password"
                         value={password}
                         onChange={handleInputChange}
                         required
-                        disabled={loading} 
+                        disabled={loading}
                     />
                 </div>
 
