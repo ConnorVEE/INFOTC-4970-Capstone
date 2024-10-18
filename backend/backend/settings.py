@@ -35,12 +35,17 @@ REST_FRAMEWORK = { # got this from a youtube video, its the rest framework authe
     ),
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
-    ]    ,
+    ],
 }
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_ACCESS_TOKEN": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+    "ALGORITHM": "HS256",
+    "SIGNING_KEY": SECRET_KEY,  # Use Django's SECRET_KEY for signing tokens
+    "AUTH_HEADER_TYPES": ("Bearer",),
 }
 
 # Application definition
@@ -52,14 +57,14 @@ INSTALLED_APPS = [ #added api, rest_framework, and corsheaders
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     # Modules
     "listings", 
     "users",
     "messaging",
-    "transactions"
+    "transactions",
 
     # Frameworks n stuff, I think
+    "rest_framework_simplejwt",
     "rest_framework",
     "corsheaders",
 ]
