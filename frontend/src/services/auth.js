@@ -14,15 +14,24 @@ const logout = () => {
 const login = async (username, password) => {
 
     try {
-        const response = await axiosInstance.post('users/login/', {
+        const response = await axiosInstance.post('http://localhost:8000/api/users/login/', {
             username,
             password,
         });
 
-        return response.data; 
+        console.log('Login Successful:', response.data); 
 
     } catch (error) {
-        throw error;  
+        if (error.respone) {
+            console.error('Error response:', error.response.data);
+            alert('Login failed: ' + error.response.data.detail || 'Unknown error');
+        } else if (error.request) {
+            console.error('Error request:', error.request);
+            alert('No response from server.');
+        } else {
+            console.error('Error message:', error.message);
+            alert('An error occurred: ' + error.message);
+        }
     }
 };
 
