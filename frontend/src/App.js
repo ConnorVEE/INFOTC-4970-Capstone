@@ -2,39 +2,53 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
-import Login from './components/Login'; // Ensure this path is correct
+import Login from './components/Login';
 import Home from './components/Home';
+import Cart from './components/Cart';
+import Products from './components/Products';
+import Conversations from './components/conversations.js';
+import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
 
+
+
+//I cleaned up this routes page.
+//We could always make a second "Routes file" to keep eveyrhting organized down the line if we keep adding to this
 function App() {
   return (
-    <Router>
-      <div>
+    <CartProvider>
 
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
-        </nav>
+      <Router>
 
-        <Routes>
-          {/* Route for default landing page */}
-          <Route path="/" element={<Login />} />
+        <div>
 
-          {/* Route for the Login page */}
-          <Route path="/login" element={<Login />} />
+          <nav>
+            <Link to="/">Home</Link>
+            <Link to="/login">Login</Link>
+            <Link to="/cart">Cart</Link>
+            <Link to="/products">Products</Link>
+            <Link to="/conversations">Conversations</Link>
+          </nav>
 
 
-          {/* TESTING AHHHAHAHHAHAHA */}
 
-          {/* Route for the Register page */}
-          {/* <Route path="/register" element={<Register />} /> */}
+          <Routes>
 
-          {/* Home Route (protected, later) */}
-          <Route path="/home" element={< Home />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/products" element={<Products />} />
+            <Route path='/conversations' element={<Conversations />} />
 
-        </Routes>
+          </Routes>
 
-      </div>
-    </Router>
+
+
+        </div>
+
+      </Router>
+
+    </CartProvider>
   );
 }
 
