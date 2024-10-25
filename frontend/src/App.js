@@ -6,12 +6,13 @@ import Login from './components/Login';
 import Home from './components/Home';
 import Cart from './components/Cart';
 import Products from './components/Products';
+import ProtectedRoute from './components/ProtectedRoute.js';
 import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
 
 
 
 //I cleaned up this routes page.
-//We could always make a second "Routes file" to keep eveyrhting organized down the line if we keep adding to this
+//We could always make a second "Routes file" to keep everyhting organized down the line if we keep adding to this
 function App() {
   return (
     <CartProvider>
@@ -33,7 +34,8 @@ function App() {
 
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/home" element={<Home />} />
+            {/* <Route path="/home" element={<Home />} /> */}
+            <Route path="/home" element={<ProtectedRoute component={Home} />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/products" element={<Products />} />
 

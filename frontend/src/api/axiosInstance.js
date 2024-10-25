@@ -23,7 +23,6 @@ const refreshToken = async () => {
     }
 };
 
-
 // Checks if tokens have expired and refreshes if needed
 axiosInstance.interceptors.response.use(
     (response) => {
