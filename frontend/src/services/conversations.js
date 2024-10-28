@@ -20,7 +20,7 @@ const fetchConversations = async () => { // Fetch all conversations
     }
 };
 
-const getConversation = async (conversationId) => { // Display the messages sent for an individual conversation
+const fetchMessages = async (conversationId) => { // Display the messages sent for an individual conversation
     try {
         const response = await axiosInstance.get(`http://localhost:8000/api/conversations/${conversationId}/`);
         return response.data;
@@ -40,4 +40,4 @@ const getConversation = async (conversationId) => { // Display the messages sent
     }
 };
 
-export { fetchConversations, getConversation };
+export { fetchConversations, fetchMessages };

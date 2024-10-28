@@ -48,46 +48,63 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         try:
             serializer.is_valid(raise_exception=True)
 
+            refresh_token = serializer.validated_data.get('refresh')
+            access_token = serializer.validated_data.get('access')
+
+            response = Response({
+                'success': True,
+                'message': 'Login successful',
+                'data': {
+                    'username': request.data.get('username')
+                }
+            }, status = status.HTTP_200_OK)
+
+            # Set tokens as HttpOnly cookies
+            response.set_cookie(
+                key = 'access_token',
+                value = access_token,
+                httponly = True,
+                secure = False,  # Set this to False in development but True in production
+                samesite = 'Lax',
+            )
+
+            response.set_cookie(
+                key = 'refresh_token',
+                value = refresh_token,
+                httponly = True,
+                secure = False,  # Set this to False in development but True in production
+                samesite = 'Lax',
+            )
+            
+            return response
+        
         except serializers.ValidationError as e:
-            # If the error is due to invalid credentials, return 401
-            if "non_field_errors" in e.detail:
-                print(f"Invalid credentials for username: {request.data.get('username')}")
-                return Response({"error": "Invalid username or password."}, status=status.HTTP_401_UNAUTHORIZED)
-
-            # Handle other validation errors with 400
-            print(f"Validation error: {e.detail}")
-            return Response({"error": "Validation error", "details": e.detail}, status=status.HTTP_400_BAD_REQUEST)
-
+            # Format error response for axios
+            error_response = {
+                'success': False,
+                'message': 'Invalid username or password.',
+                'error': str(e.detail),
+                'response': {
+                    'status': status.HTTP_401_UNAUTHORIZED,
+                    'data': {
+                        'detail': 'Invalid username or password.'
+                    }
+                }
+            }
+            print("error response: ", error_response)
+            print(f"Invalid credentials for username: {request.data.get('username')}")
+            return Response(error_response, status=status.HTTP_401_UNAUTHORIZED)
+        
         except Exception as e:
-            # Handle any unexpected errors
-            print(f"Unexpected error: {str(e)}")
-            return Response({"error": "An unexpected error occurred."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-        refresh_token = serializer.validated_data.get('refresh')
-        access_token = serializer.validated_data.get('access')
-
-        response = Response({
-            'success': 'Login successful'
-        }, status = status.HTTP_200_OK)
-
-        # Set tokens as HttpOnly cookies
-        response.set_cookie(
-            key = 'access_token',
-            value = access_token,
-            httponly = True,
-            secure = False,  # Set this to False in development but True in production
-            samesite = 'Lax',
-        )
-
-        response.set_cookie(
-            key = 'refresh_token',
-            value = refresh_token,
-            httponly = True,
-            secure = False,  # Set this to False in development but True in production
-            samesite = 'Lax',
-        )
-
-        return response
+            # Format unexpected error response for axios
+            error_response = {
+                'success': False,
+                'message': 'An unexpected error occured.',
+                'error': str(e),
+            }
+            
+            print(f"Unexpected error: ", error_response)
+            return Response(error_response, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 # Handles token refresh
 class CookieTokenRefreshView(TokenRefreshView):

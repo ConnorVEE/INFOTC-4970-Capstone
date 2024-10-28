@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchConversations } from '../services/conversations';
-// import './Conversations.css'
+import '../styles/Conversations.css'
 
 const Conversations = () => {
     const [conversations, setConversations] = useState([]);
@@ -18,20 +18,21 @@ const Conversations = () => {
         setErrorMessage('');
 
         try {
-            const response = await fetchConversations();
-            setConversations(response);
+            const data = await fetchConversations();
+            setConversations(data);
         } catch (error) {
+            console.error('Error loading conversations:', error) // debug log
             setErrorMessage(error.message);
-            if (error.message.includes('401')) { // redirect to login if user is unauthorized
-                navigate('/login')
+            if (error.response?.status === 401) { // redirect to login if user is unauthorized
+                navigate('/login');
             }
         } finally {
             setLoading(false);
         }
     };
 
-    const handleConversationSelection = (conversationId) => {
-        navigate(`/conversations/${conversationId}`)
+    const handleConversationClick = (conversationId) => {
+        navigate(`/conversations/${conversationId}/messages`)
     };
 
     return (
@@ -53,7 +54,7 @@ const Conversations = () => {
                             <div
                                 key={conversation.id}
                                 className='conversation-item'
-                                onClick={() => handleConversationSelection(conversation.id)}
+                                onClick={() => handleConversationClick(conversation.id)}
                             >
                                 <div className='conversation-header'>
                                     <h3>Listing: {conversation.listing.title}</h3>
@@ -71,11 +72,12 @@ const Conversations = () => {
                                 {conversation.last_message && (
                                     <div className='conversation-last-message'>
                                         <p>
-                                            Latest: {conversation.last_message.conversation.substring(0, 50)}
+                                            Last message: {conversation.last_message.conversation.substring(0, 50)}
                                             {conversation.last_message.content.length > 50 ? '...' : ''}
                                         </p>
                                         <span className='message-date'>
-                                            {new Date(conversation.last_message.created_at).toLocaleDateString()}
+                                            {new Date(conversation.last_message.created_at)
+                                            .toLocaleDateString()}
                                         </span>
                                     </div>
                                 )}

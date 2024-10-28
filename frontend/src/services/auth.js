@@ -14,12 +14,21 @@ const logout = () => {
 const login = async (username, password) => {
 
     try {
+        console.log('Attempting login for:', username)
         const response = await axiosInstance.post('http://localhost:8000/api/users/login/', {
             username,
             password,
         });
 
-        console.log('Login Successful:', response.data); 
+        console.log('Login Successful:', response); // Debug log
+
+        if (response.data && response.data.success) {
+            console.log('Login successful:', response.data); // debug log
+            return response.data
+        } else {
+            console.log('Login failed:', response.data); // debug log
+            throw new Error(response.data.message || "Login failed.");
+        }
 
     } catch (error) {
         if (error.respone) {

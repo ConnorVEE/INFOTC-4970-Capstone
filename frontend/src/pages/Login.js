@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';  // Import AuthContext
-import './Login.css';
+import '../styles/Login.css';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -30,11 +30,13 @@ const Login = () => {
 
         try {
             // Use login function from AuthContext
-            await login(username, password);
+            const response = await login(username, password);
+            console.log('Login response:', response); //Debug Log
             setLoading(false);
             navigate('/home');  
 
         } catch (error) {
+            console.log('Login Error:', error);
             setLoading(false);
 
             if (error.response) {
