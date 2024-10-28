@@ -20,10 +20,9 @@ def register_user(request):
 
         if serializer.is_valid():
             serializer.save()
-
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response({"message": "User registered successfully.", "user": serializer.data}, status=status.HTTP_201_CREATED)
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
     
 
 @api_view(['GET'])
@@ -91,6 +90,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
 # Handles token refresh
 class CookieTokenRefreshView(TokenRefreshView):
+    
     def post(self, request, *args, **kwargs):
         # Get the refresh token from cookies
         refresh_token = request.COOKIES.get('refresh_token')
