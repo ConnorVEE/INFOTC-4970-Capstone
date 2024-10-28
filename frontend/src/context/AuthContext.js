@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { refreshToken } from '../api/axiosInstance';
 import { login as loginService, logout as logoutService } from '../services/auth';
+import axiosInstance from '../api/axiosInstance';
 
 const AuthContext = createContext();
 
@@ -12,16 +12,22 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                // Try refreshing the token to see if the user is logged in
-                await refreshToken();
-                setIsAuthenticated(true);
+                // Make a request to check if the user is authenticated
+                const response = await axiosInstance.get('/users/check-authentication/', { withCredentials: true });
+                if (response.data.isAuthenticated) {
+                    setIsAuthenticated(true);
+                } else {
+                    setIsAuthenticated(false);
+                    console.log("User is not authenticated. Proceed with login.");
+                }
             } catch (error) {
                 setIsAuthenticated(false);
+                console.log("User is not authenticated. Proceed with login.");
             }
         };
         checkAuthStatus();
     }, []);
-
+    
     // Login function using the login service
     const login = async (username, password) => {
         try {

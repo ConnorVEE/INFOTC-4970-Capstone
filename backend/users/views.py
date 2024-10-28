@@ -5,11 +5,11 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
 # Local application imports (internal models, serializers, etc.)
 from .models import User
 from .serializers import RegistrationSerializer, UserSerializer, CustomTokenObtainPairSerializer
-
 
 @api_view(['POST'])
 @permission_classes([AllowAny])  # This allows unauthenticated users to access this view
@@ -28,9 +28,51 @@ def register_user(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request):
+
     user = request.user
     serializer = UserSerializer(user)
     return Response(serializer.data)
+
+
+# Check if user is authenticated 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def check_authentication(request):
+    # Retrieve tokens from cookies
+    access_token = request.COOKIES.get('access_token')
+    refresh_token = request.COOKIES.get('refresh_token')
+
+    # Check if access token is present and valid
+    if access_token:
+        try:
+            AccessToken(access_token)  # Will raise an exception if invalid
+            return Response({"isAuthenticated": True}, status=status.HTTP_200_OK)
+        except TokenError:
+            # Access token is invalid or expired, check refresh token next
+            pass
+
+    # Check if refresh token is present and valid
+    if refresh_token:
+        try:
+            # Try to refresh the access token using the refresh token
+            new_access_token = RefreshToken(refresh_token).access_token
+            response = Response({"isAuthenticated": True}, status=status.HTTP_200_OK)
+
+            # Set the new access token in cookies
+            response.set_cookie(
+                key='access_token',
+                value=str(new_access_token),
+                httponly=True,
+                secure=False,  # Set to True in production
+                samesite='Lax'
+            )
+            return response
+        except TokenError:
+            # Refresh token is invalid or expired
+            pass
+
+    # If no valid tokens, return unauthenticated status
+    return Response({"isAuthenticated": False, "error": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 # Views handling login, giving tokens to users, and aquiring tokens upon page/app refresh
@@ -87,6 +129,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         )
 
         return response
+
 
 # Handles token refresh
 class CookieTokenRefreshView(TokenRefreshView):

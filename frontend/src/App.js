@@ -7,8 +7,8 @@ import Home from './components/Home';
 import Cart from './components/Cart';
 import Products from './components/Products';
 import ProtectedRoute from './components/ProtectedRoute.js';
+import Register from './components/Register.js';
 import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
-
 
 
 //I cleaned up this routes page.
@@ -34,8 +34,8 @@ function App() {
 
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
-            {/* <Route path="/home" element={<Home />} /> */}
-            <Route path="/home" element={<ProtectedRoute component={Home} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/home" element={<ProtectedRoute element={Home} />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/products" element={<Products />} />
 
