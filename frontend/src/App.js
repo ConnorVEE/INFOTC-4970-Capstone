@@ -6,8 +6,8 @@ import Login from './components/Login';
 import Home from './components/Home';
 import Cart from './components/Cart';
 import Products from './components/Products';
-import Conversations from './components/conversations.js';
-import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
+import Conversations from './components/Conversations.js';
+// import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
 
 
 
