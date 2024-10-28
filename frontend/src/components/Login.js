@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../services/auth';
 import './Login.css';
+import Navbar from './Navbar';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -72,44 +73,41 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container">
-            <h2>Login to Mizzou Marketplace</h2>
-
-            <form onSubmit={handleSubmit}>
-
-                <div>
-                    <label>Username: </label>
-                    <input
-                        type="text"
-                        name="username"
-                        value={username}
-                        onChange={handleInputChange}
-                        required
-                        disabled={loading} 
-                    />
-                </div>
-
-                <div>
-                    <label>Password: </label>
-                    <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={handleInputChange}
-                        required
-                        disabled={loading}
-                    />
-                </div>
-
-                <button type="submit" disabled={loading}> 
-                    {loading ? 'Logging in...' : 'Login'}
-                </button>
-            </form>
-
-            {errorMessage && <div className="error-message">{errorMessage}</div>} 
+        <div>
+            <Navbar /> {/* Render the Navbar component here */}
+            <div className="login-container">
+                <h2>Login to Mizzou Marketplace</h2>
+                <form onSubmit={handleSubmit}>
+                    <div>
+                        <label>Username: </label>
+                        <input
+                            type="text"
+                            name="username"
+                            value={username}
+                            onChange={handleInputChange}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+                    <div>
+                        <label>Password: </label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={password}
+                            onChange={handleInputChange}
+                            required
+                            disabled={loading}
+                        />
+                    </div>
+                    <button type="submit" disabled={loading}>
+                        {loading ? 'Logging in...' : 'Login'}
+                    </button>
+                </form>
+                {errorMessage && <div className="error-message">{errorMessage}</div>}
+            </div>
         </div>
     );
-
 };
 
 export default Login;

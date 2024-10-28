@@ -11,8 +11,7 @@ function App() {
       <div>
 
         <nav>
-          <Link to="/">Home</Link>
-          <Link to="/login">Login</Link>
+          {/*got rid of nav home/login here */}
         </nav>
 
         <Routes>

@@ -4,6 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+// Add Google Fonts link
+const link = document.createElement('link');
+link.href = 'https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap';
+link.rel = 'stylesheet';
+document.head.appendChild(link);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
