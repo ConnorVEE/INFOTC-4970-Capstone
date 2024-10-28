@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/users/', include('users.urls')),
     path('api/listings/', include('listings.urls')),
     path('api/conversations/', include('messaging.urls')),
-    path('api/', include('transactions.urls')),
+    # path('api/', include('transactions.urls')),
 ]
 
 # This line here allows photos, media, etc. to be served by the MEDIA_URL while we are in development
