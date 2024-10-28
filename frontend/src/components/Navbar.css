@@ -1,0 +1,79 @@
+/* Navbar container styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #333;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Logo and title container */
+.logo-container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+
+
+
+/* Hamburger icon button */
+.menu-toggle {
+    font-size: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    padding-right: 20px;
+}
+
+/* Navigation links */
+.nav-links {
+    list-style: none;
+    display: none; /* Hidden by default */
+    flex-direction: column;
+    position: absolute;
+    top: 80px;
+    right: 80px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 180px;
+    padding: 10px 0;
+    box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-links li {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #000;
+    font-size: 26px;
+}
+
+/* Show menu when open */
+.nav-links.open {
+    display: flex;
+}
+.logo-container h1 {
+    display: flex;
+    font-size: 40px;
+    padding-left: 100px;
+    align-items: center;
+    padding-top: 0px;
+    color: #fff;
+
+}
+.navbar a:hover {
+    text-decoration: underline;
+    font-size: 28px;
+    color: #7090ff;
+}
+.navbar-logo{
+    display: flex;
+    width: 200px;
+    height: auto; 
+}

@@ -1,21 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Make sure to import Link from react-router-dom
-import logo from '../components/MMLogo.png'; // Adjust the path as necessary
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import MizzouMarketplaceLogo from '../components/MMLogo.png';
+import './Navbar.css';
 
 const Navbar = () => {
-  return (
-    <nav className="navbar">
-       <div className="logo-container">
-          <img src={logo} alt="Mizzou Marketplace Logo"  style={{ width: '200px', height: 'auto' }} className="navbar-logo" />
-      </div>
-      <ul>
-        <li><Link to="/home">Home</Link></li>
-        <li><Link to="/about">Cart</Link></li>
-        <li><Link to="/contact">Products</Link></li>
-        <li><Link to="/login">Account</Link></li>
-      </ul>
-    </nav>
-  );
+    const [isOpen, setIsOpen] = useState(false);
+
+    // Toggle menu visibility
+    const toggleMenu = () => setIsOpen(!isOpen);
+
+    return (
+        <nav className="navbar">
+            <div className="logo-container">
+                <img src={MizzouMarketplaceLogo} alt="Mizzou Marketplace Logo" className="navbar-logo" />
+                <h1>BUY AND SELL USED GOODS AT MIZZOU</h1>
+            </div>
+
+            {/* Hamburger icon for menu toggle */}
+            <button className="menu-toggle" onClick={toggleMenu}>
+                ☰
+            </button>
+
+            {/* Navbar items that appear vertically when open */}
+            <ul className={`nav-links ${isOpen ? "open" : ""}`}>
+                <li><Link to="/home" onClick={() => setIsOpen(false)}>Home</Link></li>
+                <li><Link to="/about" onClick={() => setIsOpen(false)}>Cart</Link></li>
+                <li><Link to="/contact" onClick={() => setIsOpen(false)}>Products</Link></li>
+                <li><Link to="/login" onClick={() => setIsOpen(false)}>Account</Link></li>
+            </ul>
+        </nav>
+    );
 };
 
 export default Navbar;
