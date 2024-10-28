@@ -6,7 +6,7 @@ function Register() {
   return (
     <div className="register-container">
       <div>
-        <h1>Create a Mizzou Marketplace Account</h1>
+        <h1>Create a Mizzou Marketplace account</h1>
         <form>
           <div>
             <label>Username:</label>
