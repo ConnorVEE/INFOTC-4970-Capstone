@@ -22,7 +22,7 @@ const fetchConversations = async () => { // Fetch all conversations
 
 const fetchMessages = async (conversationId) => { // Display the messages sent for an individual conversation
     try {
-        const response = await axiosInstance.get(`http://localhost:8000/api/conversations/${conversationId}/`);
+        const response = await axiosInstance.get(`http://localhost:8000/api/conversations/${conversationId}/messages`);
         return response.data;
     } catch (error) {
         if (error.response) {
