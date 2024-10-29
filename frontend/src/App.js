@@ -21,23 +21,26 @@ function App() {
 
         <div>
 
-          <nav>
+          {/* NAVs don't go on login pages yah silly goofs  */}
+          {/* <nav>
             <Link to="/">Home</Link>
             <Link to="/login">Login</Link>
             <Link to="/cart">Cart</Link>
             <Link to="/products">Products</Link>
-          </nav>
+          </nav> */}
 
 
 
           <Routes>
 
-            <Route path="/" element={<Login />} />
+            <Route path="/" element={<ProtectedRoute element={Home} />} />
+
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+
+            <Route path="/register" element={<ProtectedRoute element={Register} />} />
             <Route path="/home" element={<ProtectedRoute element={Home} />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/products" element={<Products />} />
+            <Route path="/cart" element={<ProtectedRoute element={Cart} />} />
+            <Route path="/products" element={<ProtectedRoute element={Products} />} />
 
           </Routes>
 
