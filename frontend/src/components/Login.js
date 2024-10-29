@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../services/auth';
 import './Login.css';
 
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -72,6 +73,7 @@ const Login = () => {
     };
 
     return (
+        <body>
         <div className="login-container">
             <h2>Login to Mizzou Marketplace</h2>
 
@@ -107,7 +109,18 @@ const Login = () => {
             </form>
 
             {errorMessage && <div className="error-message">{errorMessage}</div>} 
-        </div>
+        
+                <div>
+                    <a href="../register">Register Here</a>
+                </div>
+            </div>
+
+            <div className="image-container">
+                <img src="Column.png" alt="Image" className="image" />
+                <img src="Column.png" alt="Image" className="image" />
+                <img src="Column.png" alt="Image" className="image" />
+            </div>
+        </body>
     );
 
 };

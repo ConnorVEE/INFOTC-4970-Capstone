@@ -6,6 +6,7 @@ import Login from './components/Login';
 import Home from './components/Home';
 import Cart from './components/Cart';
 import Products from './components/Products';
+import Register from './components/Register';
 import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
 
 
@@ -21,10 +22,11 @@ function App() {
         <div>
 
           <nav>
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
             <Link to="/login">Login</Link>
             <Link to="/cart">Cart</Link>
             <Link to="/products">Products</Link>
+            <Link to="/register">Register Here</Link>
           </nav>
 
 
@@ -36,6 +38,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/register" element={<Register />} />
 
           </Routes>
 

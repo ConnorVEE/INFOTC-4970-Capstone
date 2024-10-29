@@ -1,7 +1,12 @@
 .register-container{
-
+    width: 600px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 2px 2px 12px #aaa;
 }
 
 .register-container h1 {
-
+    text-align: center;
 }
