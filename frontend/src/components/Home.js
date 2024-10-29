@@ -7,8 +7,8 @@ const Home = () => {
                 <h1>Mizzou Marketplace</h1>
             </div>
             <div>
-            <button class="button1" type="submit">Register</button>
-            <button class="button2" type="submit">Login</button>
+            <button className="button1" type="submit">Register</button>
+            <button className="button2" type="submit">Login</button>
             </div>
         </div>
     );
