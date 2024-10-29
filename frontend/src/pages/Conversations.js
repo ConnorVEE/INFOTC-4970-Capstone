@@ -72,7 +72,7 @@ const Conversations = () => {
                                 {conversation.last_message && (
                                     <div className='conversation-last-message'>
                                         <p>
-                                            Last message: {conversation.last_message.conversation.substring(0, 50)}
+                                            Last message: {conversation.last_message.content.substring(0, 50)}
                                             {conversation.last_message.content.length > 50 ? '...' : ''}
                                         </p>
                                         <span className='message-date'>
