@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';  // Import AuthContext
 import '../styles/Login.css';
 
@@ -94,7 +94,8 @@ const Login = () => {
                     {loading ? 'Logging in...' : 'Login'}
                 </button>
             </form>
-            {errorMessage && <div className="error-message">{errorMessage}</div>} 
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+            <p>Don't have an account? <Link to="/register">Register here!</Link></p> 
         </div>
     );
 };
