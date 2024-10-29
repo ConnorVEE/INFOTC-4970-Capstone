@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import './Register.css';
 
@@ -90,6 +90,7 @@ const Register = () => {
                 </button>
             </form>
             {errorMessage && <div className="error-message">{errorMessage}</div>}
+            <p>Already have an account? <Link to="/login">Login here!</Link></p>
         </div>
     );
 };
