@@ -2,12 +2,14 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Login from './components/Login';
-import Home from './components/Home';
-import Cart from './components/Cart';
-import Products from './components/Products';
-import ProtectedRoute from './components/ProtectedRoute.js';
-import Register from './components/Register.js';
+import Login from './pages/Login.js';
+import Cart from './components/Cart.js'
+import Home from './pages/Home.js';
+import Register from './pages/Register.js';
+import Products from './components/Products.js'
+import ProtectedRoute from './utils/ProtectedRoute.js';
+import { AuthContext } from './context/AuthContext.js';
+import Conversations from './pages/Conversations.js';
 import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
 
 
@@ -41,6 +43,7 @@ function App() {
             <Route path="/home" element={<ProtectedRoute element={Home} />} />
             <Route path="/cart" element={<ProtectedRoute element={Cart} />} />
             <Route path="/products" element={<ProtectedRoute element={Products} />} />
+            <Route path="/conversations" element={<ProtectedRoute element={Conversations} />} />
 
           </Routes>
 
