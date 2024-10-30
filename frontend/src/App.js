@@ -23,10 +23,11 @@ function App() {
 
           {/* NAVs don't go on login pages yah silly goofs  */}
           {/* <nav>
-            <Link to="/">Home</Link>
+            <Link to="/home">Home</Link>
             <Link to="/login">Login</Link>
             <Link to="/cart">Cart</Link>
             <Link to="/products">Products</Link>
+            <Link to="/register">Register Here</Link>
           </nav> */}
 
 

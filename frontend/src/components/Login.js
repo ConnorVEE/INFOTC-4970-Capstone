@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';  // Import AuthContext
 import './Login.css';
 
+
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -63,6 +64,7 @@ const Login = () => {
     };
 
     return (
+        <body>
         <div className="login-container">
             <h2>Login to Mizzou Marketplace</h2>
             <form onSubmit={handleSubmit}>
@@ -92,9 +94,11 @@ const Login = () => {
                     {loading ? 'Logging in...' : 'Login'}
                 </button>
             </form>
+
             {errorMessage && <div className="error-message">{errorMessage}</div>}
-            <p>Don't have an account? <Link to="/register">Register here!</Link></p> 
+            <p>Don't have an account? <Link to="/register">Register here!</Link></p>
         </div>
+        </body>
     );
 };
 
