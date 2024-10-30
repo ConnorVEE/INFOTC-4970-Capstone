@@ -12,21 +12,49 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                // Make a request to check if the user is authenticated
                 const response = await axiosInstance.get('/users/check-authentication/', { withCredentials: true });
                 if (response.data.isAuthenticated) {
                     setIsAuthenticated(true);
                 } else {
                     setIsAuthenticated(false);
-                    console.log("User is not authenticated. Proceed with login.");
+                    console.log("User is not authenticated.");
                 }
             } catch (error) {
                 setIsAuthenticated(false);
-                console.log("User is not authenticated. Proceed with login.");
+                console.log("Error checking authentication status:", error);
             }
         };
-        checkAuthStatus();
-    }, []);
+    
+        // Only run authentication check if status is initially unknown
+        if (isAuthenticated === null) {  
+            checkAuthStatus();
+        }
+    }, [isAuthenticated]);
+    
+    // Show a loading spinner or message until authentication status is known
+    if (isAuthenticated === null) {
+        return <div>Loading...</div>;
+    }
+    
+    
+    // useEffect(() => {
+    //     const checkAuthStatus = async () => {
+    //         try {
+    //             // Make a request to check if the user is authenticated
+    //             const response = await axiosInstance.get('/users/check-authentication/', { withCredentials: true });
+    //             if (response.data.isAuthenticated) {
+    //                 setIsAuthenticated(true);
+    //             } else {
+    //                 setIsAuthenticated(false);
+    //                 console.log("User is not authenticated. Proceed with login.");
+    //             }
+    //         } catch (error) {
+    //             setIsAuthenticated(false);
+    //             console.log("User is not authenticated. Proceed with login.");
+    //         }
+    //     };
+    //     checkAuthStatus();
+    // }, []);
     
     // Login function using the login service
     const login = async (username, password) => {
