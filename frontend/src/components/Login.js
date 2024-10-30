@@ -30,41 +30,20 @@ const Login = () => {
         setErrorMessage('');
 
         try {
-            // Use login function from AuthContext
-            await login(username, password);
+            setLoading(true);
+            await login(username, password); // Attempt login
             setLoading(false);
-            navigate('/home');  
-
+            navigate('/home');  // Navigate only if login is successful
         } catch (error) {
             setLoading(false);
-
-            if (error.response) {
-                const status = error.response.status;
-
-                if (status === 401) {
-                    setErrorMessage('Invalid username or password. Please try again.');
-
-                } else if (status === 400) {
-                    setErrorMessage('Validation issue. Please check your credentials.');
-
-                } else if (status === 500) {
-                    setErrorMessage('Server error. Please try again later.');
-
-                } else {
-                    setErrorMessage('An unexpected error occurred. Please try again.');
-
-                }
-            } else if (error.request) {
-                setErrorMessage('No response from server. Please check your connection.');
-                
-            } else {
-                setErrorMessage('Error: ' + error.message);
-            }
+            console.log("Error response:", error.message); // Log the error message
+            setErrorMessage(error.message); // Display the error message to the user
         }
+        
     };
 
     return (
-        <body>
+        // Body tags can't exist in the components, only inside the index.js
         <div className="login-container">
             <h2>Login to Mizzou Marketplace</h2>
             <form onSubmit={handleSubmit}>
@@ -98,7 +77,6 @@ const Login = () => {
             {errorMessage && <div className="error-message">{errorMessage}</div>}
             <p>Don't have an account? <Link to="/register">Register here!</Link></p>
         </div>
-        </body>
     );
 };
 

@@ -52,15 +52,17 @@ document.head.appendChild(style);
 
     return (
         <div className="home-container">
-            <body>
-                <div class="container">
-                    <h1>Mizzou Marketplace</h1>
-                </div>
-            </body>
+            
+            {/* Body tags cannot be a child of a div, sends errors to the console, sorry */}
+
+            <div class="container">
+                <h1>Mizzou Marketplace</h1>
+            </div>
+            
             <div>
             <button className="button1" type="submit">Register</button>
             <button className="button2" type="submit">Login</button>
-            <button className="button3" type="submit" onClick={logout}>Log out</button>
+            {/* <button className="button3" type="submit" onClick={logout}>Log out</button> */}
             </div>
         </div>
     );

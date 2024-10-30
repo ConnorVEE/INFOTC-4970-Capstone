@@ -36,15 +36,24 @@ const AuthProvider = ({ children }) => {
         return <div>Loading...</div>;
     }
     
-    // Login function using the login service
     const login = async (username, password) => {
         try {
             const data = await loginService(username, password);
-            setUser({ username: data.username, email: data.email });
-            setIsAuthenticated(true);
+    
+            // Check if data exists and contains username and email
+            if (data?.username && data?.email) {
+                setUser({ username: data.username, email: data.email });
+                setIsAuthenticated(true);
+            } else {
+                console.log("Data received is not valid:", data); // Log the received data
+                throw new Error("Invalid response data");  // Handle unexpected response format
+            }
         } catch (error) {
-            throw error;
+            console.error("Caught error in AuthContext:", error); // Log the entire error for context
+            throw new Error(error)
+    
         }
+    
     };
 
     // Logout function using the logout service
