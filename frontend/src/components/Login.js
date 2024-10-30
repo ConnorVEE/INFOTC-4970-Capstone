@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../services/auth';
+import React, { useState, useContext } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';  // Import AuthContext
 import './Login.css';
 
 
@@ -9,44 +9,38 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const { login } = useContext(AuthContext);  
     const navigate = useNavigate();
 
-    // handle input changes and clear error message when user types again
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
-        setErrorMessage('');
-
-        // Update the state based on which input is changing
+        setErrorMessage('');  // Clear error message when user types
         if (name === 'username') {
             setUsername(value);
+
         } else if (name === 'password') {
             setPassword(value);
+
         }
     };
 
-    // handle logging in
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setErrorMessage('');
 
         try {
-            // Call the login function
-            const response = await login(username, password); 
-            console.log('Login successful:', response);
+            // Use login function from AuthContext
+            await login(username, password);
             setLoading(false);
-
-            navigate('/home');
+            navigate('/home');  
 
         } catch (error) {
+            setLoading(false);
 
-            setLoading(false); 
-
-            // handling of specific errors
             if (error.response) {
                 const status = error.response.status;
-                
+
                 if (status === 401) {
                     setErrorMessage('Invalid username or password. Please try again.');
 
@@ -60,15 +54,12 @@ const Login = () => {
                     setErrorMessage('An unexpected error occurred. Please try again.');
 
                 }
-
             } else if (error.request) {
-                // No response from server
                 setErrorMessage('No response from server. Please check your connection.');
+                
             } else {
-                // Any other error during request setup
                 setErrorMessage('Error: ' + error.message);
             }
-
         }
     };
 
@@ -76,9 +67,7 @@ const Login = () => {
         <body>
         <div className="login-container">
             <h2>Login to Mizzou Marketplace</h2>
-
             <form onSubmit={handleSubmit}>
-
                 <div>
                     <label>Username: </label>
                     <input
@@ -90,7 +79,6 @@ const Login = () => {
                         disabled={loading} 
                     />
                 </div>
-
                 <div>
                     <label>Password: </label>
                     <input
@@ -102,28 +90,16 @@ const Login = () => {
                         disabled={loading}
                     />
                 </div>
-
-                <button type="submit" disabled={loading}> 
+                <button type="submit" disabled={loading}>
                     {loading ? 'Logging in...' : 'Login'}
                 </button>
             </form>
 
-            {errorMessage && <div className="error-message">{errorMessage}</div>} 
-        
-                <div>
-                    <a href="../register">Register Here</a>
-                </div>
-            </div>
-
-            <div className="image-container">
-                <img src="Column.png" alt="Image" className="image" />
-                <img src="Column.png" alt="Image" className="image" />
-                <img src="Column.png" alt="Image" className="image" />
-            </div>
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+            <p>Don't have an account? <Link to="/register">Register here!</Link></p>
+        </div>
         </body>
     );
-
 };
 
 export default Login;
-
