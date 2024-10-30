@@ -36,26 +36,6 @@ const AuthProvider = ({ children }) => {
         return <div>Loading...</div>;
     }
     
-    
-    // useEffect(() => {
-    //     const checkAuthStatus = async () => {
-    //         try {
-    //             // Make a request to check if the user is authenticated
-    //             const response = await axiosInstance.get('/users/check-authentication/', { withCredentials: true });
-    //             if (response.data.isAuthenticated) {
-    //                 setIsAuthenticated(true);
-    //             } else {
-    //                 setIsAuthenticated(false);
-    //                 console.log("User is not authenticated. Proceed with login.");
-    //             }
-    //         } catch (error) {
-    //             setIsAuthenticated(false);
-    //             console.log("User is not authenticated. Proceed with login.");
-    //         }
-    //     };
-    //     checkAuthStatus();
-    // }, []);
-    
     // Login function using the login service
     const login = async (username, password) => {
         try {
