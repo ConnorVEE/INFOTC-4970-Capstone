@@ -1,7 +1,13 @@
 .home-container{
-
+    width: 400px;
+    margin: 100px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 2px 2px 12px #aaa;
+    text-align: center;
 }
 
 .home-container h1 {
-
+    text-align: center;
 }

@@ -12,7 +12,6 @@ const logout = () => {
 
 // Log in function
 const login = async (username, password) => {
-
     try {
         const response = await axiosInstance.post('/users/login/', {
             username,
@@ -20,20 +19,24 @@ const login = async (username, password) => {
         });
 
         console.log('Login Successful:', response.data);
-        return response.data 
+        return response.data; // This will return user data on success
 
     } catch (error) {
         if (error.response) {
             console.error('Error response:', error.response.data);
-            alert('Login failed: ' + error.response.data.detail || 'Unknown error');
+            throw new Error(error.response.data.error || 'Unknown error');
+
         } else if (error.request) {
             console.error('Error request:', error.request);
-            alert('No response from server.');
+            throw new Error('No response from server.');
+
         } else {
             console.error('Error message:', error.message);
-            alert('An error occurred: ' + error.message);
+            throw new Error('An error occurred: ' + error.message);
+            
         }
     }
 };
+
 
 export { logout, login };

@@ -12,31 +12,48 @@ const AuthProvider = ({ children }) => {
     useEffect(() => {
         const checkAuthStatus = async () => {
             try {
-                // Make a request to check if the user is authenticated
                 const response = await axiosInstance.get('/users/check-authentication/', { withCredentials: true });
                 if (response.data.isAuthenticated) {
                     setIsAuthenticated(true);
                 } else {
                     setIsAuthenticated(false);
-                    console.log("User is not authenticated. Proceed with login.");
+                    console.log("User is not authenticated.");
                 }
             } catch (error) {
                 setIsAuthenticated(false);
-                console.log("User is not authenticated. Proceed with login.");
+                console.log("Error checking authentication status:", error);
             }
         };
-        checkAuthStatus();
-    }, []);
     
-    // Login function using the login service
+        // Only run authentication check if status is initially unknown
+        if (isAuthenticated === null) {  
+            checkAuthStatus();
+        }
+    }, [isAuthenticated]);
+    
+    // Show a loading spinner or message until authentication status is known
+    if (isAuthenticated === null) {
+        return <div>Loading...</div>;
+    }
+    
     const login = async (username, password) => {
         try {
             const data = await loginService(username, password);
-            setUser({ username: data.username, email: data.email });
-            setIsAuthenticated(true);
+    
+            // Check if data exists and contains username and email
+            if (data?.username && data?.email) {
+                setUser({ username: data.username, email: data.email });
+                setIsAuthenticated(true);
+            } else {
+                console.log("Data received is not valid:", data); // Log the received data
+                throw new Error("Invalid response data");  // Handle unexpected response format
+            }
         } catch (error) {
-            throw error;
+            console.error("Caught error in AuthContext:", error); // Log the entire error for context
+            throw new Error(error)
+    
         }
+    
     };
 
     // Logout function using the logout service
