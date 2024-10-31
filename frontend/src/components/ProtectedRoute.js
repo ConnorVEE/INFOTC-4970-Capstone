@@ -1,19 +1,20 @@
-import React, { useContext } from 'react';
+import React, { Children, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';  
 
-const ProtectedRoute = ({ element: Component, ...rest }) => {
+// Changed method to more modern react method
+const ProtectedRoute = ({ children }) => {
     const { isAuthenticated } = useContext(AuthContext);
-    
-    console.log("Authenticated:", isAuthenticated); // Debugging line
 
-    return isAuthenticated ? (
-        <Component {...rest} />
-    ) : (
-        <Navigate to="/login" />
-    );
+    // Debug authentication state
+    console.log('Auth status:', isAuthenticated);
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+
+    return children;
 };
-
 
 export default ProtectedRoute;
 

@@ -15,12 +15,15 @@ const AuthProvider = ({ children }) => {
                 const response = await axiosInstance.get('/users/check-authentication/', { withCredentials: true });
                 if (response.data.isAuthenticated) {
                     setIsAuthenticated(true);
+                    setUser(response.data.user);
                 } else {
                     setIsAuthenticated(false);
+                    setUser(null);
                     console.log("User is not authenticated.");
                 }
             } catch (error) {
                 setIsAuthenticated(false);
+                setUser(null);
                 console.log("Error checking authentication status:", error);
             }
         };
@@ -64,7 +67,7 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, user }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, user, setUser, setIsAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

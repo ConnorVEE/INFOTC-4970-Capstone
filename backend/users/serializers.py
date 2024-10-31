@@ -58,4 +58,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             raise serializers.ValidationError("Invalid username or password.")
         
         # If user is authenticated, call the superclass method to create the token
-        return super().validate(attrs)
+        data = super().validate(attrs)
+        data['user'] = user
+
+        return data

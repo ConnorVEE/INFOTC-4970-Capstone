@@ -6,7 +6,10 @@ const axiosInstance = axios.create({
     // Our backend
     baseURL: 'http://localhost:8000/api', 
     // Tells Axios to send cookies with every request
-    withCredentials: true 
+    withCredentials: true, 
+    headers: {
+        'Content-Type': 'application/json',
+    }
 });
 
 // Function to handle refreshing the access token

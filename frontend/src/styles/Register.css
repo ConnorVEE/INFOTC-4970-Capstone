@@ -4,7 +4,8 @@
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 2px 2px 12px #aaa;
+    box-shadow: 2px 2px 12px #ccc;
+    background-color: rgb(255, 255, 255);
 }
 
 .register-container h2 {

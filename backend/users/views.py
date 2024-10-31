@@ -88,37 +88,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         try:
             serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
 
-            refresh_token = serializer.validated_data.get('refresh')
-            access_token = serializer.validated_data.get('access')
-
-            response = Response({
-                'success': True,
-                'message': 'Login successful',
-                'data': {
-                    'username': request.data.get('username')
-                }
-            }, status = status.HTTP_200_OK)
-
-            # Set tokens as HttpOnly cookies
-            response.set_cookie(
-                key = 'access_token',
-                value = access_token,
-                httponly = True,
-                secure = False,  # Set this to False in development but True in production
-                samesite = 'Lax',
-            )
-
-            response.set_cookie(
-                key = 'refresh_token',
-                value = refresh_token,
-                httponly = True,
-                secure = False,  # Set this to False in development but True in production
-                samesite = 'Lax',
-            )
-            
-            return response
-        
         except serializers.ValidationError as e:
             # Format error response for axios
             error_response = {
@@ -147,7 +118,34 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             print(f"Unexpected error: ", error_response)
             return Response(error_response, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+        refresh_token = serializer.validated_data.get('refresh')
+        access_token = serializer.validated_data.get('access')
 
+        response = Response({
+            'success': 'Login successful',
+            'username': user.username,  
+            'email': user.email,
+        }, status = status.HTTP_200_OK)
+
+            # Set tokens as HttpOnly cookies
+        response.set_cookie(
+            key = 'access_token',
+            value = access_token,
+            httponly = True,
+            secure = False,  # Set this to False in development but True in production
+            samesite = 'Lax',
+        )
+
+        response.set_cookie(
+            key = 'refresh_token',
+            value = refresh_token,
+            httponly = True,
+            secure = False,  # Set this to False in development but True in production
+            samesite = 'Lax',
+        )
+            
+        return response
+        
 # Handles token refresh
 class CookieTokenRefreshView(TokenRefreshView):
     
