@@ -2,7 +2,7 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh; /* Ensure full height */
-    background-image: url('Background.png'); /* Adjust the path as needed */
+    background-image: url('../assets/Background.png'); /* Adjust the path as needed */
     background-size: cover; /* Cover the entire viewport */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevent repetition */
@@ -21,7 +21,7 @@ body {
 }
 
 .image-container {
-    background-image: url('Column.png');
+    background-image: url('../assets/Column.png');
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     align-items: center;
