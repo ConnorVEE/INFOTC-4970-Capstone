@@ -88,6 +88,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         try:
             serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
 
         except serializers.ValidationError as e:
             # If the error is due to invalid credentials, return 401
@@ -108,7 +109,9 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         access_token = serializer.validated_data.get('access')
 
         response = Response({
-            'success': 'Login successful'
+            'success': 'Login successful',
+            'username': user.username,  
+            'email': user.email,
         }, status = status.HTTP_200_OK)
 
         # Set tokens as HttpOnly cookies
