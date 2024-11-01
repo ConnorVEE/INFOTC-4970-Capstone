@@ -1,11 +1,17 @@
 import React, { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../context/AuthContext';  
+import { AuthContext } from '../context/AuthContext';
 
 const ProtectedRoute = ({ element: Component, ...rest }) => {
-    const { isAuthenticated } = useContext(AuthContext);
+    const { isAuthenticated, loading } = useContext(AuthContext);
+
+    // Debugging logs 
     
-    console.log("Authenticated:", isAuthenticated); // Debugging line
+    // console.log("ProtectedRoute - Authenticated:", isAuthenticated, "Loading:", loading);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
 
     return isAuthenticated ? (
         <Component {...rest} />
@@ -16,4 +22,5 @@ const ProtectedRoute = ({ element: Component, ...rest }) => {
 
 
 export default ProtectedRoute;
+
 

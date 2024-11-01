@@ -55,7 +55,7 @@ document.head.appendChild(style);
             
             {/* Body tags cannot be a child of a div, sends errors to the console, sorry */}
 
-            <div class="container">
+            <div className="container">
                 <h1>Mizzou Marketplace</h1>
             </div>
             
