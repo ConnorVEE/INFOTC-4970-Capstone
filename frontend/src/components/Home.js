@@ -39,7 +39,7 @@ body.style.backgroundSize = 'cover'; // Cover the entire viewport
 body.style.backgroundPosition = 'center'; // Center the image
 body.style.backgroundRepeat = 'no-repeat'; // Prevent image repetition
 
-// Optional: Add some CSS for better visibility
+//Add some CSS for better visibility
 const style = document.createElement('style');
 style.textContent = `
     body {
@@ -48,13 +48,45 @@ style.textContent = `
         align-items: center;
     }
 `;
+
+const products = [
+    { id: 1, name: 'Product 1', price: "$10", image: "n/a" },
+    { id: 2, name: 'Product 2', price: "$20", image: "n/a" },
+    { id: 3, name: 'Product 3', price: "$30", image: "n/a" },
+];
+
+const productsContainer = document.getElementById("products-container");
+
+function displayProducts() {
+    products.forEach(product => {
+        const productDiv = document.createElement("div");
+        productDiv.classList.add("product");
+        productDiv.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h3>${product.name}</h3>
+            <p>${product.price}</p>
+        `;
+        productsContainer.appendChild(productDiv);
+    });
+}
+
+window.onload = displayProducts;
 document.head.appendChild(style);
 
     return (
         <div className="home-container">
             
             {/* Body tags cannot be a child of a div, sends errors to the console, sorry */}
-
+            <header>
+                <nav>
+                    <ul>
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/products">Products</a></li>
+                        <li><a href="/cart">Cart</a></li>
+                        <li><a href="/login">Logout</a></li>
+                    </ul>
+                </nav>
+            </header>
             <div class="container">
                 <h1>Mizzou Marketplace</h1>
             </div>
@@ -64,6 +96,11 @@ document.head.appendChild(style);
             <button className="button2" type="submit">Login</button>
             {/* <button className="button3" type="submit" onClick={logout}>Log out</button> */}
             </div>
+
+            <section id="product-list">
+            <h2>Featured Products</h2>
+            <div class="products" id="products-container"></div>
+        </section>
         </div>
     );
 };
