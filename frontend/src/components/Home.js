@@ -77,17 +77,8 @@ document.head.appendChild(style);
         <div className="home-container">
             
             {/* Body tags cannot be a child of a div, sends errors to the console, sorry */}
-            <header>
-                <nav>
-                    <ul>
-                        <li><a href="/home">Home</a></li>
-                        <li><a href="/products">Products</a></li>
-                        <li><a href="/cart">Cart</a></li>
-                        <li><a href="/login">Logout</a></li>
-                    </ul>
-                </nav>
-            </header>
-            <div class="container">
+
+            <div className="container">
                 <h1>Mizzou Marketplace</h1>
             </div>
             
