@@ -6,7 +6,9 @@ const Home = () => {
         <div className="home-container">
             <Navbar /> {/* Include the Navbar here */}
             <div>
-                <h1>Welcome to the Home Page!</h1>
+            {/*<button className="button1" type="submit">Register</button>*/}
+            {/*<button className="button2" type="submit">Login</button>*/}
+            <button className="button3" type="submit" onClick={logout}>Log out</button>
             </div>
         </div>
     );
