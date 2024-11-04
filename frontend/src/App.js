@@ -5,6 +5,7 @@ import './App.css';
 import Login from './components/Login';
 import Home from './components/Home';
 import Cart from './components/Cart';
+import Sell from './components/Sell';
 import Products from './components/Products';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import Register from './components/Register.js';
@@ -36,13 +37,15 @@ function App() {
 
             <Route path="/" element={<ProtectedRoute element={Home} />} />
 
-            <Route path="/login" element={<Login />} />
-
+            <Route path="/login" element={<Login />} />           
             <Route path="/register" element={<Register />} />
-            <Route path="/home" element={<ProtectedRoute element={Home} />} />
-            <Route path="/cart" element={<ProtectedRoute element={Cart} />} />
-            <Route path="/products" element={<ProtectedRoute element={Products} />} />
-
+            <Route path="/home" element={<Home/>} />
+            {/*element={<ProtectedRoute element={Home} />} */}
+            <Route path="/sell" element={<Sell/>} />
+            <Route path="/cart" element={<Cart/>} />
+            {/*element={<ProtectedRoute element={Cart} />} */}
+            <Route path="/products" element={<Products/>} />
+            {/*{<ProtectedRoute element={Products} />}*/}
           </Routes>
 
 

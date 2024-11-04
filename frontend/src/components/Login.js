@@ -45,7 +45,7 @@ const Login = () => {
     return (
         // Body tags can't exist in the components, only inside the index.js
         <div className="login-container">
-            <nav></nav>
+            <nav><Link to="/home">HOME!</Link></nav>
             <h2>Login to Mizzou Marketplace</h2>
             <form onSubmit={handleSubmit}>
                 <div>

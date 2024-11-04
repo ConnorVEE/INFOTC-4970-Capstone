@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const checkAuthStatus = async () => {
-            // console.log("Starting authentication check...");
+            console.log("Starting authentication check...");
 
             try {
                 const response = await axiosInstance.get('users/check-authentication/', { withCredentials: true });
@@ -32,6 +32,7 @@ const AuthProvider = ({ children }) => {
 
                 }
             } catch (error) {
+                console.error("Error checking authentication status:", error);              
                 setIsAuthenticated(false);
                 // console.log("Error checking authentication status:", error);
 
@@ -40,9 +41,13 @@ const AuthProvider = ({ children }) => {
                 // console.log("Loading is set to false", loading); // Track loading status
             }
         };
+
+        const timer = setTimeout(() => {
+            checkAuthStatus();
+        }, 10);
     
-        checkAuthStatus();
-    }, []);
+        return () => clearTimeout(timer);
+    }, [isAuthenticated]); 
 
     // Use for debugging
 
