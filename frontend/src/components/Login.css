@@ -6,7 +6,16 @@
     padding: 30px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 2px 2px 12px #aaa;
+    box-shadow: 2px 2px 12px #ccc;
+}
+
+.image-container {
+    background-image: url('Column.png');
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
 }
 
 .login-container h2 {

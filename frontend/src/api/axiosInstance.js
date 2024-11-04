@@ -23,7 +23,6 @@ const refreshToken = async () => {
     }
 };
 
-
 // Checks if tokens have expired and refreshes if needed
 axiosInstance.interceptors.response.use(
     (response) => {
@@ -35,12 +34,14 @@ axiosInstance.interceptors.response.use(
 
         // If the error is due to an expired access token (401 error)
         if (error.response && error.response.status === 401) {
-        
-            // Check if its a login request
-            if (originalRequest.url.includes('/login/')) {
-                // If it's a login request, just reject the promise
+            
+            // Check if the endpoint is one that should not require token refreshing
+            if (
+                originalRequest.url.includes('/register/') ||
+                originalRequest.url.includes('/login/')
+            ) {
+                // Just reject the promise for registration or login requests
                 return Promise.reject(error);
-                
             }
 
             // If the request hasn't been retried yet

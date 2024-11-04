@@ -9,6 +9,7 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'username', 'email', 'is_verified', 'profile_picture', 'phone_number']
 
+
 # Serializer for Registering
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -17,6 +18,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'email', 'password']
 
+    def validate_email(self, value):
+        if User.objects.filter(email=value).exists():
+            raise serializers.ValidationError("This email is already in use.")
+        return value
+
     def create(self, validated_data):
         user = User.objects.create_user(
             username=validated_data['username'],
@@ -24,6 +30,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
         )
         return user
+
 
 # Serializer for Logging in
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -51,4 +58,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             raise serializers.ValidationError("Invalid username or password.")
         
         # If user is authenticated, call the superclass method to create the token
-        return super().validate(attrs)
+        data = super().validate(attrs)
+        data['user'] = user
+
+        return data

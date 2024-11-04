@@ -1,0 +1,74 @@
+.products-container nav {
+    background-color: #f1b82d; /* Dark background color */
+    color: white; /* Text color */
+    padding: 15px 0;
+    cursor: pointer;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px 4px 0 0;
+    background: #f1f1f1;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.tab.active {
+    background: #fff;
+    border-bottom: 1px solid transparent; /* Hide the bottom border */
+    font-weight: bold; /* Emphasize the active tab */
+}
+
+.tab:hover {
+    background: rgb(173, 121, 0); /* Change color on hover */
+}
+
+.products-container {
+    padding: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+.product-image {
+    width: 100%; /* Ensure image takes full width */
+    height: 300px; /* Set a fixed height */
+    object-fit: cover; /* Ensures images are cropped correctly */
+    border-radius: 8px; /* Optional: add some rounding to the corners */
+    transition: transform 0.3s; /* Smooth scaling effect on hover */
+    
+}
+
+li:hover .product-image {
+    transform: scale(1.05); /* Slightly enlarge image on hover */
+}
+
+.product-description {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    color: white;
+    padding: 10px;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s;
+}
+
+li:hover .product-description {
+    opacity: 1; /* Show description on hover */
+}

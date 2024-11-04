@@ -1,114 +1,84 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../services/auth';
+import React, { useState, useContext } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';  // Import AuthContext
 import './Login.css';
-import Navbar from './Navbar';
+
 
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const { login } = useContext(AuthContext);  
     const navigate = useNavigate();
 
-    // handle input changes and clear error message when user types again
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-
-        setErrorMessage('');
-
-        // Update the state based on which input is changing
+        setErrorMessage('');  // Clear error message when user types
         if (name === 'username') {
             setUsername(value);
+
         } else if (name === 'password') {
             setPassword(value);
+
         }
     };
 
-    // handle logging in
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setErrorMessage('');
 
         try {
-            // Call the login function
-            const response = await login(username, password); 
-            console.log('Login successful:', response);
+            setLoading(true);
+            await login(username, password); // Attempt login
             setLoading(false);
-
-            navigate('/home');
-
+            navigate('/home');  // Navigate only if login is successful
         } catch (error) {
-
-            setLoading(false); 
-
-            // handling of specific errors
-            if (error.response) {
-                const status = error.response.status;
-                
-                if (status === 401) {
-                    setErrorMessage('Invalid username or password. Please try again.');
-
-                } else if (status === 400) {
-                    setErrorMessage('Validation issue. Please check your credentials.');
-
-                } else if (status === 500) {
-                    setErrorMessage('Server error. Please try again later.');
-
-                } else {
-                    setErrorMessage('An unexpected error occurred. Please try again.');
-
-                }
-
-            } else if (error.request) {
-                // No response from server
-                setErrorMessage('No response from server. Please check your connection.');
-            } else {
-                // Any other error during request setup
-                setErrorMessage('Error: ' + error.message);
-            }
-
+            setLoading(false);
+            console.log("Error response:", error.message); // Log the error message
+            setErrorMessage(error.message); // Display the error message to the user
         }
+        
     };
 
     return (
-        <div>
-            <Navbar /> {/* Render the Navbar component here */}
-            <div className="login-container">
-                <h2>Login to Mizzou Marketplace</h2>
-                <form onSubmit={handleSubmit}>
-                    <div>
-                        <label>Username: </label>
-                        <input
-                            type="text"
-                            name="username"
-                            value={username}
-                            onChange={handleInputChange}
-                            required
-                            disabled={loading}
-                        />
-                    </div>
-                    <div>
-                        <label>Password: </label>
-                        <input
-                            type="password"
-                            name="password"
-                            value={password}
-                            onChange={handleInputChange}
-                            required
-                            disabled={loading}
-                        />
-                    </div>
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Logging in...' : 'Login'}
-                    </button>
-                </form>
-                {errorMessage && <div className="error-message">{errorMessage}</div>}
-            </div>
+        // Body tags can't exist in the components, only inside the index.js
+        <div className="login-container">
+            <nav><Link to="/home">HOME!</Link></nav>
+            <h2>Login to Mizzou Marketplace</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Username: </label>
+                    <input
+                        type="text"
+                        name="username"
+                        value={username}
+                        onChange={handleInputChange}
+                        required
+                        disabled={loading} 
+                    />
+                </div>
+                <div>
+                    <label>Password: </label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={password}
+                        onChange={handleInputChange}
+                        required
+                        disabled={loading}
+                    />
+                </div>
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Logging in...' : 'Login'}
+                </button>
+            </form>
+
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
+            <p>Don't have an account? <Link to="/register">Register here!</Link></p>
         </div>
     );
 };
 
 export default Login;
-
