@@ -9,51 +9,35 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true); 
 
-
-
-// Solve this issue with a missing hook in the dependencies
-
-
-
-    useEffect(() => {
-        const checkAuthStatus = async () => {
-            console.log("Starting authentication check...");
-
-            try {
-                const response = await axiosInstance.get('users/check-authentication/', { withCredentials: true });
-
-                if (response.data.isAuthenticated) {
-                    setIsAuthenticated(true);
-                    // console.log("User is authenticated");
-
-                } else {
-                    setIsAuthenticated(false);
-                    // console.log("User is not authenticated.");
-
-                }
-            } catch (error) {
-                console.error("Error checking authentication status:", error);              
-                setIsAuthenticated(false);
-                // console.log("Error checking authentication status:", error);
-
-            } finally {
-                setLoading(false);  // Ensure this runs after try/catch
-                // console.log("Loading is set to false", loading); // Track loading status
-            }
-        };
-
-        const timer = setTimeout(() => {
-            checkAuthStatus();
-        }, 10);
-    
-        return () => clearTimeout(timer);
-    }, [isAuthenticated]); 
-
-    // Use for debugging
-
     // useEffect(() => {
-    //     console.log("Auth status changed:", { isAuthenticated, loading });
-    // }, [isAuthenticated, loading]);
+    //     const checkAuthStatus = async () => {
+    //         console.log("Starting authentication check...");
+
+    //         try {
+    //             const response = await axiosInstance.get('users/check-authentication/', { withCredentials: true });
+
+    //             if (response.data.isAuthenticated) {
+    //                 setIsAuthenticated(true);
+    //                 console.log("User is authenticated");
+    //             } else {
+    //                 setIsAuthenticated(false);
+    //                 console.log("User is not authenticated.");
+    //             }
+    //         } catch (error) {
+    //             console.error("Error checking authentication status:", error);
+    //             setIsAuthenticated(false);
+    //         } finally {
+    //             setLoading(false);  // Set loading to false once authentication check is complete
+    //         }
+    //     };
+    
+    //     checkAuthStatus();
+    // }, []); 
+
+    // AuthProvider renders children only once loading is complete
+    if (loading) {
+        return <div>Loading...</div>;
+    } 
     
     const login = async (username, password) => {
         try {

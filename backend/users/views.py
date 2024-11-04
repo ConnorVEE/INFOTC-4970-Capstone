@@ -133,7 +133,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 
         return response
 
-
 # Handles token refresh
 class CookieTokenRefreshView(TokenRefreshView):
     

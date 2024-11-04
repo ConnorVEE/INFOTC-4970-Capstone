@@ -22,34 +22,45 @@ function App() {
 
         <div>
 
-          {/* NAVs don't go on login pages yah silly goofs  */}
-          {/* <nav>
-            <Link to="/home">Home</Link>
-            <Link to="/login">Login</Link>
-            <Link to="/cart">Cart</Link>
-            <Link to="/products">Products</Link>
-            <Link to="/register">Register Here</Link>
-          </nav> */}
-
-
         <nav>
           {/*got rid of nav home/login here */}
         </nav>
 
-          <Routes>
+        <Routes>
+          <Route path="/" element={
+              <ProtectedRoute>
+                  <Home />
+              </ProtectedRoute>
+          } />
 
-            <Route path="/" element={<ProtectedRoute element={Home} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
-            <Route path="/login" element={<Login />} />           
-            <Route path="/register" element={<Register />} />
-            <Route path="/home" element={<Home/>} />
-            {/*element={<ProtectedRoute element={Home} />} */}
-            <Route path="/sell" element={<Sell/>} />
-            <Route path="/cart" element={<Cart/>} />
-            {/*element={<ProtectedRoute element={Cart} />} */}
-            <Route path="/products" element={<Products/>} />
-            {/*{<ProtectedRoute element={Products} />}*/}
-          </Routes>
+          <Route path="/home" element={
+              <ProtectedRoute>
+                  <Home />
+              </ProtectedRoute>
+          } />
+
+          <Route path="/sell" element={
+              <ProtectedRoute>
+                  <Sell />
+              </ProtectedRoute>
+          } />
+
+          <Route path="/cart" element={
+              <ProtectedRoute>
+                  <Cart />
+              </ProtectedRoute>
+          } />
+
+          <Route path="/products" element={
+              <ProtectedRoute>
+                  <Products />
+              </ProtectedRoute>
+          } />
+</Routes>
+
 
 
 

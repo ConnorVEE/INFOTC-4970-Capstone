@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Navbar from './Navbar';
+import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
     const { isAuthenticated, logout } = useContext(AuthContext)
