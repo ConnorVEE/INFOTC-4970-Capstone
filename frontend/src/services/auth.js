@@ -2,10 +2,9 @@ import axiosInstance from '../api/axiosInstance';
 
 // Log out function
 const logout = () => {
-
-    // Clear tokens
-    document.cookie = "access_token=; Max-Age=-99999999;";  
-    document.cookie = "refresh_token=; Max-Age=-99999999;";
+    // Clear tokens and confirm deletion with logs
+    document.cookie = "access_token=; Max-Age=-99999999; path=/;";
+    document.cookie = "refresh_token=; Max-Age=-99999999; path=/;";
 
     window.location.href = '/login';
 };

@@ -9,36 +9,39 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true); 
 
-    // useEffect(() => {
-    //     const checkAuthStatus = async () => {
-    //         console.log("Starting authentication check...");
-
-    //         try {
-    //             const response = await axiosInstance.get('users/check-authentication/', { withCredentials: true });
-
-    //             if (response.data.isAuthenticated) {
-    //                 setIsAuthenticated(true);
-    //                 console.log("User is authenticated");
-    //             } else {
-    //                 setIsAuthenticated(false);
-    //                 console.log("User is not authenticated.");
-    //             }
-    //         } catch (error) {
-    //             console.error("Error checking authentication status:", error);
-    //             setIsAuthenticated(false);
-    //         } finally {
-    //             setLoading(false);  // Set loading to false once authentication check is complete
-    //         }
-    //     };
+    useEffect(() => {
+        const checkAuthentication = async () => {
+            // Immediately exit if user is not authenticated
+            if (!isAuthenticated) return;
     
-    //     checkAuthStatus();
-    // }, []); 
-
-    // AuthProvider renders children only once loading is complete
-    if (loading) {
-        return <div>Loading...</div>;
-    } 
+            try {
+                // Call the endpoint to check authentication
+                const response = await axiosInstance.get('/users/check-authentication/');
+                
+                // Update authentication state based on response
+                if (response.data.isAuthenticated) {
+                    setIsAuthenticated(true);
+                    setUser(response.data.user);  // Assume the response includes user data
+                    console.log("User is already authenticated. Granting access");
+                } else {
+                    setIsAuthenticated(false);
+                }
+            } catch (error) {
+                console.error("Authentication check failed:", error);
+                setIsAuthenticated(false);
+            } finally {
+                setLoading(false);
+            }
+        };
     
+        // Invoke the authentication check
+        checkAuthentication();
+    }, [isAuthenticated]);  // Add isAuthenticated as a dependency
+
+    useEffect(() => {
+        console.log("isAuthenticated changed:", isAuthenticated);
+    }, [isAuthenticated]);
+
     const login = async (username, password) => {
         try {
             const data = await loginService(username, password);
@@ -59,15 +62,21 @@ const AuthProvider = ({ children }) => {
     
     };
 
-    // Logout function using the logout service
     const logout = () => {
-        logoutService();  // Clears cookies
+        console.log("User has been logged out");
+        // document.cookie = "access_token=; Max-Age=-99999999; path=/;";  // Clear access token
+        // document.cookie = "refresh_token=; Max-Age=-99999999; path=/;";  // Clear refresh token
+        // setIsAuthenticated(false);  // Ensure state is updated immediately
+        // setUser(null);              // Clear user data
+        // window.location.href = '/login';
         setIsAuthenticated(false);
         setUser(null);
+        logoutService();
     };
 
+    // I cut out 'loading' because it breaks the application
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, loading, user, setUser }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, user, setUser }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { logout }from '../services/auth';
 
-
 const axiosInstance = axios.create({
     // Our backend
     baseURL: 'http://localhost:8000/api', 
