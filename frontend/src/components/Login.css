@@ -1,7 +1,8 @@
 
+
 .login-container {
     width: 700px;
-    height: 250px;
+    height: 450px;
     margin: 100px auto;
     padding: 30px;
     border: 1px solid #ccc;
@@ -47,6 +48,8 @@
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
+    font-family: 'Oswald', sans-serif;
+  
 }
 
 .login-container button:hover {
@@ -59,4 +62,13 @@
     margin-top: 10px;
     text-align: center;
 }
+
+.logo {
+    display: block;
+    margin: 0 auto;
+    padding: 0px;
+    width: 200px; /* Adjust as needed */
+    height: 120px;
+}
+
 
