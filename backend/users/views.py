@@ -67,7 +67,6 @@ def check_authentication(request):
         # Refresh token is invalid or expired
         return Response({"isAuthenticated": False, "error": "Invalid refresh token."}, status=status.HTTP_401_UNAUTHORIZED)
 
-
 # Views handling login, giving tokens to users, and aquiring tokens upon page/app refresh
 class CustomTokenObtainPairView(TokenObtainPairView):
 
@@ -125,6 +124,19 @@ class CustomTokenObtainPairView(TokenObtainPairView):
         )
 
         return response
+
+# Handles logout
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def logout_view(request):
+
+    response = Response({"success": "Logged out"}, status=status.HTTP_200_OK)
+
+    # Remove the cookies by setting them to expire
+    response.delete_cookie('access_token', path='/')
+    response.delete_cookie('refresh_token', path='/')
+    
+    return response
 
 # Handles token refresh
 class CookieTokenRefreshView(TokenRefreshView):
