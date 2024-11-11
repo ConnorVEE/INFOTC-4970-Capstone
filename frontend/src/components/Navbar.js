@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import MizzouMarketplaceLogo from '../components/MMLogo.png';
-import './Navbar.css';
+import '../assets/Navbar';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,6 +26,7 @@ const Navbar = () => {
                 <li><Link to="/home" onClick={() => setIsOpen(false)}>Home</Link></li>
                 <li><Link to="/about" onClick={() => setIsOpen(false)}>Cart</Link></li>
                 <li><Link to="/contact" onClick={() => setIsOpen(false)}>Products</Link></li>
+                <li><Link to="/conversations" onClick={() => setIsOpen(false)}>Messaging</Link></li>
                 <li><Link to="/login" onClick={() => setIsOpen(false)}>Account</Link></li>
             </ul>
         </nav>

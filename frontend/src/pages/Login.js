@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';  // Import AuthContext
 import './Login.css';
-import MizzouMarketplaceLogo from '../components/MMLogo.png'
+import MizzouMarketplaceLogo from '../assets/MMLogo.png'
 
 const Login = () => {
     const [username, setUsername] = useState('');

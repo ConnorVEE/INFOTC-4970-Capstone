@@ -1,0 +1,50 @@
+.conversations-container {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.loading-message,
+.error-message,
+
+.no-conversations {
+    text-align: center;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #dc2626
+}
+
+.conversation-item:hover {
+    background-color: #f3f4f6;
+}
+
+.conversation-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.conversation-date,
+
+.message-date {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.conversation-participants {
+    color: #4b5563;
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+}
+
+.conversation-last-message {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 8px;
+    margin-top: 8px;
+}
