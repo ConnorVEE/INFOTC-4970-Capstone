@@ -8,9 +8,8 @@ import Conversations from './pages/Conversations.js';
 import Cart from './components/Cart';
 import Sell from './components/Sell';
 import Products from './components/Products';
-import ProtectedRoute from './components/ProtectedRoute.js';
-import Register from './components/Register.js';
-import { CartProvider } from './pages/Conversations.js';
+import ProtectedRoute from './utils/ProtectedRoute.js';
+import Register from './pages/Register.js';
 
 
 //I cleaned up this routes page.

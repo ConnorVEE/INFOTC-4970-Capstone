@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import MizzouMarketplaceLogo from '../components/MMLogo.png';
-import '../assets/Navbar';
+import MizzouMarketplaceLogo from '../assets/MMLogo.png';
+//import '../assets/Navbar';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
