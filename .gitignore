@@ -20,6 +20,7 @@ static/
 # Exclude compiled migration files
 *.py[cod]
 migrations/
+users/migrations
 
 # Django secret keys and environment variables
 .env
