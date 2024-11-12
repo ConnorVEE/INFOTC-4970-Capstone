@@ -20,13 +20,24 @@ const Register = () => {
         else if (name === 'password') setPassword(value);
     };
 
+    const validateEmail = (email) => {
+      const regex = /^[a-zA-Z0-9._%+-]+@umsystem\.edu$/;
+      return regex.test(email);
+  };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setErrorMessage('');
 
+        if (!validateEmail(email)) {
+          setErrorMessage('Please enter a valid email address ending with @umsystem.edu');
+          setLoading(false);
+          return;
+      }
+
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/api/users/register/`, {
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/..api/axiosInstance.js`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, email, password })
@@ -35,7 +46,7 @@ const Register = () => {
             if (response.ok) {
                 // Auto-login user after successful registration
                 await login(username, password);
-                navigate('/home');  // Redirect to home page
+                navigate('/login');  // Redirect to home page
 
             } else {
                 const data = await response.json();

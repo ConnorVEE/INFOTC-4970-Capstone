@@ -85,3 +85,15 @@
   color: green;
   text-align: center;
 }
+
+body {
+  font-family: 'Oswald', sans-serif;
+}h1 {
+  font-weight: 700; /* Bold */
+}
+h2 {
+  font-weight: 600; /* Semi-bold */
+}
+
+
+

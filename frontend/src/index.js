@@ -5,13 +5,19 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './context/AuthContext';  // Import AuthProvider
 
+// Add Google Fonts link
+const link = document.createElement('link');
+link.href = 'https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap';
+link.rel = 'stylesheet';
+document.head.appendChild(link);
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AuthProvider>  
       <App />
     </AuthProvider>
-  </React.StrictMode>
+  // </React.StrictMode> 
 );
 
 // If you want to start measuring performance in your app, pass a function

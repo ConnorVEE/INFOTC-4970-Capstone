@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';  // Import AuthContext
-import '../styles/Login.css';
-
+import './Login.css';
+import MizzouMarketplaceLogo from '../components/MMLogo.png'
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -44,8 +44,9 @@ const Login = () => {
     };
 
     return (
-        // Body tags can't exist in the components, only inside the index.js
         <div className="login-container">
+            <nav><Link to="/home">HOME!</Link></nav>
+            <img src={MizzouMarketplaceLogo} alt="Mizzou Marketplace Logo" className="logo" />
             <h2>Login to Mizzou Marketplace</h2>
             <form onSubmit={handleSubmit}>
                 <div>

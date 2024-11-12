@@ -1,14 +1,26 @@
 import axiosInstance from '../api/axiosInstance'; 
 
 // Log out function
-const logout = () => {
+const logout = async () => {
+    try {
+        // Call the logout endpoint to delete cookies on the server-side
+        await axiosInstance.post('/users/logout/');
 
-    // Clear tokens
-    document.cookie = "access_token=; Max-Age=-99999999;";  
-    document.cookie = "refresh_token=; Max-Age=-99999999;";
-
-    window.location.href = '/login';
+        // Redirect to login page after successful logout
+        window.location.href = '/login';
+    } catch (error) {
+        console.error("Error logging out:", error);
+    }
 };
+
+// const logout = () => {
+
+//     document.cookie = "access_token=; Expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; samesite=Lax;";
+//     document.cookie = "refresh_token=; Expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; samesite=Lax;";
+//     console.log(document.cookie);  // Check remaining cookies
+//     window.location.href = '/login';
+// };
+
 
 // Log in function
 const login = async (username, password) => {
@@ -37,6 +49,5 @@ const login = async (username, password) => {
         }
     }
 };
-
 
 export { logout, login };

@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { logout }from '../services/auth';
 
-
 const axiosInstance = axios.create({
     // Our backend
     baseURL: 'http://localhost:8000/api', 
@@ -41,7 +40,7 @@ axiosInstance.interceptors.response.use(
             // Check if the endpoint is one that should not require token refreshing
             if (
                 originalRequest.url.includes('/register/') ||
-                originalRequest.url.includes('/login/')
+                originalRequest.url.includes('/login/') 
             ) {
                 // Just reject the promise for registration or login requests
                 return Promise.reject(error);
