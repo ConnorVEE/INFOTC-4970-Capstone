@@ -11,6 +11,7 @@ const axiosInstance = axios.create({
 // Function to handle refreshing the access token
 const refreshToken = async () => {
     try {
+        console.log("Attempting to refresh token");
         const response = await axiosInstance.post('/users/refresh/');
         const newAccessToken = response.data.access;
 
@@ -23,49 +24,56 @@ const refreshToken = async () => {
 };
 
 // Checks if tokens have expired and refreshes if needed
+let hasTriedRefresh = false;  // Session-level flag for refresh attempts
+
 axiosInstance.interceptors.response.use(
+
     (response) => {
-        // Return the response if it succeeds
+        console.log("Response received:", response);
         return response;
     },
+
     async (error) => {
         const originalRequest = error.config;
 
-        // If the error is due to an expired access token (401 error)
         if (error.response && error.response.status === 401) {
-            
-            // Check if the endpoint is one that should not require token refreshing
-            if (
-                originalRequest.url.includes('/register/') ||
-                originalRequest.url.includes('/login/') 
-            ) {
-                // Just reject the promise for registration or login requests
+
+            // Skip refresh if the error occurs on login or register routes
+            if (originalRequest.url.includes('/register/') || originalRequest.url.includes('/login/')) {
                 return Promise.reject(error);
             }
 
-            // If the request hasn't been retried yet
-            if (!originalRequest._retry) {
-                // Mark the request as being retried
-                originalRequest._retry = true;  
+            // Check if a refresh token exists before attempting refresh
+            const refreshToken = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('refresh_token='))
+            ?.split('=')[1];
+
+            if (refreshToken && !hasTriedRefresh) {
+                hasTriedRefresh = true;
+                originalRequest._retry = true;
 
                 try {
-                    // Attempt to refresh the access token
                     const newAccessToken = await refreshToken();
+                    console.log("New access token acquired:", newAccessToken);
 
-                    // Update the headers with the new access token and retry the original request
+                    // Set the new access token in headers
                     axiosInstance.defaults.headers['Authorization'] = `Bearer ${newAccessToken}`;
                     originalRequest.headers['Authorization'] = `Bearer ${newAccessToken}`;
 
                     // Retry the original request with the new token
                     return axiosInstance(originalRequest);
+
                 } catch (err) {
-                    // Logs user out upon failure 
+                    console.error("Token refresh failed, logging out...");
+                    hasTriedRefresh = false;  // Reset the flag here to prepare for next session
                     logout();
+
+                    return Promise.reject(err);
                 }
             }
         }
 
-        // If the request fails for another reason, reject the promise
         return Promise.reject(error);
     }
 );

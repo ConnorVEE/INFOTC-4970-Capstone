@@ -31,7 +31,7 @@ const Products = () => {
         : products.filter(product => product.category.toLowerCase() === activeCategory.toLowerCase());
 
     return (
-        <div classname="products-container">
+        <div className="products-container">
             <nav>
             <Link to="/home">Home</Link>
             <Link to="/login">Logout</Link>

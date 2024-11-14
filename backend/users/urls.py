@@ -7,6 +7,7 @@ urlpatterns = [
     path('login/', CustomTokenObtainPairView.as_view(), name='login'),
     path('refresh/', CookieTokenRefreshView.as_view(), name='token_refresh'),
     path('check-authentication/', check_authentication, name='check_authentication'),
-    path('logout/', logout_view, name='logout')
+    path('logout/', logout_view, name='logout'),
+    path('get-user-profile/', get_user_profile, name='user_rofile')
 ]
 
