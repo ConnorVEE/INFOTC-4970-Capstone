@@ -2,28 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import Navbar from './Navbar';
 import { AuthContext } from '../context/AuthContext';
 
-// Testing 
-// import axiosInstance from '../api/axiosInstance'; 
-
 const Home = () => {
     const { logout } = useContext(AuthContext);
     const [products, setProducts] = useState([]);
-
-
-
-    // Testing
-    // const getUserProfile = async () => {
-    //     try {
-    //         const response = await axiosInstance.get('/users/get-user-profile/');
-    //         console.log('User profile data:', response.data);
-    //     } catch (error) {
-    //         console.log("Didn't work")
-    //         // console.error('Error fetching user profile:', error);
-    //     }
-    // };
-
-
-
 
     useEffect(() => {
         // Simulating fetching products

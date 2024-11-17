@@ -3,6 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.parsers import MultiPartParser, FormParser
 
 # Local application imports (internal models, serializers, etc.)
 from .models import Listing
@@ -28,17 +29,12 @@ class ListingCreateView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
 
-
-## Testing stuffs
-
-
 # Listing Retrieval Views
 class ListingListView(ListAPIView):
     """
     Retrieves all listings that are active and visible.
     """
-    # , is_visible=False
-    queryset = Listing.objects.filter(is_active=True).order_by('-date_created')
+    queryset = Listing.objects.order_by('-date_created')
     serializer_class = ListingSerializer
     permission_classes = [AllowAny]  # No authentication required to view listings
 
@@ -47,7 +43,23 @@ class ListingDetailView(RetrieveAPIView):
     """
     Retrieves a specific listing by ID.
     """
-    queryset = Listing.objects.filter(is_active=True, is_visible=True)
+    queryset = Listing.objects
     serializer_class = ListingSerializer
     permission_classes = [AllowAny]  # No authentication required to view listings
     lookup_field = 'id'  # Use 'id' to look up the listing
+
+
+class ListingImageUploadView(APIView):
+    permission_classes = [IsAuthenticated]  # Only authenticated users can upload images
+    parser_classes = [MultiPartParser, FormParser]  # Allow handling of file uploads
+
+    def post(self, request):
+        serializer = ListingImageSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()  # Save the image and update the associated listing
+            return Response(
+                {"message": "Image uploaded successfully.", "image": serializer.data},
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

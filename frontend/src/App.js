@@ -12,8 +12,6 @@ import Register from './components/Register.js';
 import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
 
 
-//I cleaned up this routes page.
-//We could always make a second "Routes file" to keep everyhting organized down the line if we keep adding to this
 function App() {
   return (
     <CartProvider>
