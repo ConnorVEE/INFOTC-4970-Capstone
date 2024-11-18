@@ -2,9 +2,28 @@ import React, { useState, useEffect, useContext } from 'react';
 import Navbar from '../components/Navbar';
 import { AuthContext } from '../context/AuthContext';
 
+// Testing 
+// import axiosInstance from '../api/axiosInstance'; 
+
 const Home = () => {
-    const { logout } = useContext(AuthContext)
+    const { logout } = useContext(AuthContext);
     const [products, setProducts] = useState([]);
+
+
+
+    // Testing
+    // const getUserProfile = async () => {
+    //     try {
+    //         const response = await axiosInstance.get('/users/get-user-profile/');
+    //         console.log('User profile data:', response.data);
+    //     } catch (error) {
+    //         console.log("Didn't work")
+    //         // console.error('Error fetching user profile:', error);
+    //     }
+    // };
+
+
+
 
     useEffect(() => {
         // Simulating fetching products
@@ -24,6 +43,14 @@ const Home = () => {
             {/*<button className="button2" type="submit">Login</button>*/}
             <button className="button3" type="submit" onClick={ logout }>Log out</button>
             </div>
+
+
+            {/* <div>
+                <h1>Test the Axios Interceptor</h1>
+                <button onClick={getUserProfile}>Get User Profile</button>
+            </div> */}
+
+
         </div>
     );
 };

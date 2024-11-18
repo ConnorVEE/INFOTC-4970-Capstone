@@ -5,7 +5,7 @@
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../context/CartContext.js'; // Ensure the correct path
 import { Link } from 'react-router-dom';
-import './styles/Products.css'
+import '../styles/Products.css'
 
 const categories = [
     'All',
@@ -31,7 +31,7 @@ const Products = () => {
         : products.filter(product => product.category.toLowerCase() === activeCategory.toLowerCase());
 
     return (
-        <div classname="products-container">
+        <div className="products-container">
             <nav>
             <Link to="/home">Home</Link>
             <Link to="/login">Logout</Link>

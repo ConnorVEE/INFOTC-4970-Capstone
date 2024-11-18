@@ -52,8 +52,17 @@ def check_authentication(request):
 
         # Generate a new access token if the refresh token is valid
         new_access_token = valid_refresh_token.access_token
-        
-        response = Response({"isAuthenticated": True}, status=status.HTTP_200_OK)
+        user = request.user  # assuming user is authenticated here if token is valid
+
+        response = Response({
+            "isAuthenticated": True,
+            "user": {
+                "username": user.username,
+                "id": user.id
+                # Add more user data as needed
+            }
+        }, status=status.HTTP_200_OK)
+
         response.set_cookie(
             key='access_token',
             value=str(new_access_token),

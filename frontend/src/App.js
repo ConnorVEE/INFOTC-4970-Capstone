@@ -10,6 +10,7 @@ import Sell from './components/Sell';
 import Products from './components/Products';
 import ProtectedRoute from './utils/ProtectedRoute.js';
 import Register from './pages/Register.js';
+import { CartProvider } from './context/CartContext.js';
 
 
 //I cleaned up this routes page.
@@ -66,9 +67,6 @@ function App() {
               </ProtectedRoute>
           } />
 </Routes>
-
-
-
 
         </div>
 
