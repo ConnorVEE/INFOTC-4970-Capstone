@@ -46,6 +46,20 @@ const AccountPage = () => {
         });
     };
 
+    const handleProfilePictureChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setUserData((prevData) => ({
+                    ...prevData,
+                    profilePicture: reader.result,
+                }));
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const toggleEdit = () => setIsEditing(!isEditing);
 
     return (
@@ -56,6 +70,17 @@ const AccountPage = () => {
                     alt="Profile"
                     className="profile-picture"
                 />
+                {isEditing && (
+                    <div className="profile-picture-upload">
+                        <label htmlFor="profilePicture">Change Profile Picture</label>
+                        <input
+                            type="file"
+                            id="profilePicture"
+                            accept="image/*"
+                            onChange={handleProfilePictureChange}
+                        />
+                    </div>
+                )}
                 <div className="account-info">
                     <h1>My Account</h1>
                     {isEditing ? (
@@ -147,4 +172,3 @@ const AccountPage = () => {
 };
 
 export default AccountPage;
-
