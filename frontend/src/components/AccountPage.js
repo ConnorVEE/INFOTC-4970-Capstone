@@ -12,8 +12,9 @@ const AccountPage = () => {
         listings: [],
     });
 
+    const [isEditing, setIsEditing] = useState(false);
+
     useEffect(() => {
-        // Simulate fetching user data from an API
         const fetchData = async () => {
             const mockData = {
                 profilePicture: 'https://via.placeholder.com/150',
@@ -28,6 +29,25 @@ const AccountPage = () => {
         fetchData();
     }, []);
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setUserData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleArrayChange = (e, field, index) => {
+        const value = e.target.value;
+        setUserData((prevData) => {
+            const updatedArray = [...prevData[field]];
+            updatedArray[index] = value;
+            return { ...prevData, [field]: updatedArray };
+        });
+    };
+
+    const toggleEdit = () => setIsEditing(!isEditing);
+
     return (
         <div className="account-container">
             <div className="account-header">
@@ -38,12 +58,42 @@ const AccountPage = () => {
                 />
                 <div className="account-info">
                     <h1>My Account</h1>
-                    <p className="bio">{userData.bio}</p>
-                    <p className="degree-year">
-                        {userData.degree} - {userData.year}
-                    </p>
+                    {isEditing ? (
+                        <textarea
+                            name="bio"
+                            value={userData.bio}
+                            onChange={handleInputChange}
+                            className="bio-edit"
+                        />
+                    ) : (
+                        <p className="bio">{userData.bio}</p>
+                    )}
+                    {isEditing ? (
+                        <>
+                            <input
+                                name="degree"
+                                value={userData.degree}
+                                onChange={handleInputChange}
+                                className="degree-edit"
+                            />
+                            <input
+                                name="year"
+                                value={userData.year}
+                                onChange={handleInputChange}
+                                className="year-edit"
+                            />
+                        </>
+                    ) : (
+                        <p className="degree-year">
+                            {userData.degree} - {userData.year}
+                        </p>
+                    )}
                 </div>
             </div>
+
+            <button onClick={toggleEdit} className="edit-button">
+                {isEditing ? 'Save' : 'Edit'}
+            </button>
 
             <div className="account-sections">
                 <div className="wishlist-section">
@@ -52,7 +102,15 @@ const AccountPage = () => {
                         {userData.wishlist.length > 0 ? (
                             userData.wishlist.map((item, index) => (
                                 <li key={index} className="wishlist-item">
-                                    {item}
+                                    {isEditing ? (
+                                        <input
+                                            value={item}
+                                            onChange={(e) => handleArrayChange(e, 'wishlist', index)}
+                                            className="array-edit"
+                                        />
+                                    ) : (
+                                        item
+                                    )}
                                 </li>
                             ))
                         ) : (
@@ -67,7 +125,15 @@ const AccountPage = () => {
                         {userData.listings.length > 0 ? (
                             userData.listings.map((item, index) => (
                                 <li key={index} className="listing-item">
-                                    {item}
+                                    {isEditing ? (
+                                        <input
+                                            value={item}
+                                            onChange={(e) => handleArrayChange(e, 'listings', index)}
+                                            className="array-edit"
+                                        />
+                                    ) : (
+                                        item
+                                    )}
                                 </li>
                             ))
                         ) : (
