@@ -9,62 +9,78 @@ import Sell from './components/Sell';
 import Products from './components/Products';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import Register from './components/Register.js';
-import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
+import AccountPage from './components/AccountPage'; // Import the AccountPage component
+import { CartProvider } from './context/CartContext.js';
 
-
-//I cleaned up this routes page.
-//We could always make a second "Routes file" to keep everyhting organized down the line if we keep adding to this
 function App() {
   return (
     <CartProvider>
-
       <Router>
-
         <div>
+          <nav>
+            {/*got rid of nav home/login here */}
+          </nav>
 
-        <nav>
-          {/*got rid of nav home/login here */}
-        </nav>
-
-        <Routes>
-          <Route path="/" element={
-              <ProtectedRoute>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
                   <Home />
-              </ProtectedRoute>
-          } />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          <Route path="/home" element={
-              <ProtectedRoute>
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
                   <Home />
-              </ProtectedRoute>
-          } />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/sell" element={
-              <ProtectedRoute>
+            <Route
+              path="/sell"
+              element={
+                <ProtectedRoute>
                   <Sell />
-              </ProtectedRoute>
-          } />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/cart" element={
-              <ProtectedRoute>
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute>
                   <Cart />
-              </ProtectedRoute>
-          } />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/products" element={
-              <ProtectedRoute>
+            <Route
+              path="/products"
+              element={
+                <ProtectedRoute>
                   <Products />
-              </ProtectedRoute>
-          } />
-</Routes>
+                </ProtectedRoute>
+              }
+            />
 
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <AccountPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
         </div>
-
       </Router>
-
     </CartProvider>
   );
 }
