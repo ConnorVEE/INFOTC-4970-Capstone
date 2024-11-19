@@ -28,7 +28,6 @@ class ListingCreateView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-
 # Listing Retrieval Views
 class ListingListView(ListAPIView):
     """

@@ -2,8 +2,15 @@ from rest_framework import serializers
 from .models import Listing, ListingImage
 from rest_framework.exceptions import ValidationError
 
+## HERE FOR TESTING/DEVELOPMENT
+from django.conf import settings
+
+
 # Serializer for Images
 class ListingImageSerializer(serializers.ModelSerializer):
+
+    image = serializers.SerializerMethodField() ## HERE FOR TESTING/DEVELOPMENT
+
     class Meta:
         model = ListingImage
         fields = ['id', 'listing', 'image']
@@ -18,11 +25,15 @@ class ListingImageSerializer(serializers.ModelSerializer):
         
         return data
     
-# class ListingImageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = ListingImage
-#         fields = ['id', 'listing', 'image']
-#         read_only_fields = ['id']
+
+    ## HERE FOR TESTING/DEVELOPMENT
+    def get_image(self, obj):
+        # Return the full URL for the image
+        return f"{settings.MEDIA_URL}{obj.image}"  # This adds '/media/' to the image path
+
+
+
+
 
 # Serializer for entire Listing model
 class ListingSerializer(serializers.ModelSerializer):
