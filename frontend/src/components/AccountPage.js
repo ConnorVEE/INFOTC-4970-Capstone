@@ -20,7 +20,7 @@ const AccountPage = () => {
                 bio: 'BIO goes here',
                 degree: 'Bachelor of Science in Computer Science',
                 year: 'Senior, 2024',
-                wishlist: ['Laptop', 'Headphones', 'Desk', 'HARD CODED IN FOR NOW'],
+                wishlist: ['Laptop', 'Headphones', 'Desk', 'HARD CODED IN FOR NOW.'],
                 listings: ['2001 Topics in info textbook', 'Gym Shark Shorts', 'Mizzou Tickets'],
             };
             setUserData(mockData);
