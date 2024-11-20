@@ -9,7 +9,8 @@ import Sell from './components/Sell';
 import Products from './components/Products';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import Register from './components/Register.js';
-import { CartProvider } from './context/CartContext.js'; // Ensure this path is correct
+import { CartProvider } from './context/CartContext.js'; 
+import ListingDetail from './components/ListingDetail';
 
 
 function App() {
@@ -57,7 +58,13 @@ function App() {
                   <Products />
               </ProtectedRoute>
           } />
-</Routes>
+
+          <Route path="/listing/:id" element={
+              <ProtectedRoute>
+                  <ListingDetail />
+              </ProtectedRoute>
+          } />
+        </Routes>
 
         </div>
 

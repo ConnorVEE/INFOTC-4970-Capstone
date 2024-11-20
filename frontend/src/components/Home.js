@@ -3,6 +3,7 @@ import Navbar from './Navbar';
 import './Home.css';
 import { AuthContext } from '../context/AuthContext';
 import axiosInstance from '../api/axiosInstance';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const { logout } = useContext(AuthContext);
@@ -40,22 +41,29 @@ const Home = () => {
             </div>
 
             {/* Grid for Listings */}
+
             <div className="grid-container">
 
                 {products.map(product => (
-                    <div key={product.id} className="listing-card">
-                        <img 
-                            src={product.images && product.images.length > 0 
-                                ? product.images[0].image 
-                                : 'default-image.jpg'} 
-                            alt={product.title} 
-                        />
-                        <h3>{product.title}</h3>
-                        <p>{'$' + product.price}</p>
-                    </div>
+                    <Link 
+                        key={product.id} 
+                        to={`/listing/${product.id}`} 
+                        className="listing-link" 
+                        style={{ textDecoration: 'none', color: 'inherit' }}
+                    >
+                        <div className="listing-card">
+                            <img 
+                                src={product.images && product.images.length > 0 ? product.images[0].image : 'default-image.jpg'} 
+                                alt={product.title} 
+                            />
+                            <h3>{product.title}</h3>
+                            <p>{product.price}</p>
+                        </div>
+                    </Link>
                 ))}
-
+                
             </div>
+
         </div>
     );
 };

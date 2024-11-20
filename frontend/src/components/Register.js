@@ -36,6 +36,9 @@ const Register = () => {
           return;
       }
 
+
+        // ERROR HERE, WRONG URL
+
         try {
             const response = await fetch(`${process.env.REACT_APP_API_URL}/..api/axiosInstance.js`, {
                 method: 'POST',
