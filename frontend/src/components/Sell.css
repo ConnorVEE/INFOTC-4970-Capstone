@@ -8,6 +8,15 @@
     background-color: #fff;
 }
 
+.sell-container nav {
+    background-color: #333; /* Dark background color */
+    color: white; /* Text color */
+    padding: 15px;
+    width: 100%;
+    cursor: pointer;
+    display: flex;  
+}
+
 .form {
     margin-bottom: 15px;
 }
