@@ -32,9 +32,6 @@ class ListingImageSerializer(serializers.ModelSerializer):
         return f"{settings.MEDIA_URL}{obj.image}"  # This adds '/media/' to the image path
 
 
-
-
-
 # Serializer for entire Listing model
 class ListingSerializer(serializers.ModelSerializer):
     images = ListingImageSerializer(many=True, read_only=True)

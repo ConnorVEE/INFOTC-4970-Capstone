@@ -11,6 +11,7 @@ import ProtectedRoute from './components/ProtectedRoute.js';
 import Register from './components/Register.js';
 import { CartProvider } from './context/CartContext.js'; 
 import ListingDetail from './components/ListingDetail';
+import CreateListing from './components/CreateListing.js'
 
 
 function App() {
@@ -62,6 +63,12 @@ function App() {
           <Route path="/listing/:id" element={
               <ProtectedRoute>
                   <ListingDetail />
+              </ProtectedRoute>
+          } />
+
+          <Route path="/create-listing" element={
+              <ProtectedRoute>
+                  <CreateListing />
               </ProtectedRoute>
           } />
         </Routes>

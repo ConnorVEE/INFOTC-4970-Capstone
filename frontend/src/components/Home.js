@@ -40,6 +40,12 @@ const Home = () => {
                 <button className="button3" type="submit" onClick={logout}>Log out</button>
             </div>
 
+            <button>
+                <Link to="/create-listing" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Create Listing!
+                </Link>
+            </button>
+
             {/* Grid for Listings */}
 
             <div className="grid-container">
