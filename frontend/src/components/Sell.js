@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import Navbar from './Navbar'
 
 const Sell = ({ addProduct }) => {
     const [title, setTitle] = useState('');
@@ -35,9 +36,7 @@ const Sell = ({ addProduct }) => {
 
     return (
         <div className="sell-container">
-            <nav>
-                <Link to="/home">Back</Link>
-            </nav>
+            <Navbar />
             <h2>Sell Your Product</h2>
             <form onSubmit={handleSubmit}>
                 <div className="form">

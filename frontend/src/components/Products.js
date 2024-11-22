@@ -5,7 +5,8 @@
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../context/CartContext.js'; // Ensure the correct path
 import { Link } from 'react-router-dom';
-import './Products.css'
+import './Products.css';
+import Navbar from './Navbar.js';
 
 const categories = [
     'All',
@@ -32,11 +33,7 @@ const Products = () => {
 
     return (
         <div className="products-container">
-            <nav>
-            <Link to="/home">Home</Link>
-            <Link to="/login">Logout</Link>
-            </nav>
-            <h2>Products</h2>
+            <Navbar />
 
             <div className="tabs">
                 {categories.map((category) => (
