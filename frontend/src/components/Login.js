@@ -44,7 +44,6 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <nav><Link to="/home">HOME!</Link></nav>
             <img src={MizzouMarketplaceLogo} alt="Mizzou Marketplace Logo" className="logo" />
             <h2>Login to Mizzou Marketplace</h2>
             <form onSubmit={handleSubmit}>
