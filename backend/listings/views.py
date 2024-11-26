@@ -4,11 +4,14 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.exceptions import NotFound, ValidationError
 
 # Local application imports (internal models, serializers, etc.)
-from .models import Listing
-from .serializers import ListingSerializer, ListingImageSerializer
+from .models import Listing, Favorite
+from .serializers import ListingSerializer, ListingImageSerializer, FavoriteSerializer
 
+
+# Views for listing retrieval, addition, and viewing
 
 class ListingCreateView(APIView):
     permission_classes = [IsAuthenticated]
@@ -28,7 +31,7 @@ class ListingCreateView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-# Listing Retrieval Views
+
 class ListingListView(ListAPIView):
     """
     Retrieves all listings that are active and visible.
@@ -62,3 +65,45 @@ class ListingImageUploadView(APIView):
                 status=status.HTTP_201_CREATED
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Views for Bookmarking
+
+class FavoriteListingView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    # Bookmark a listing
+    def post(self, request, id):
+
+        try:
+            listing = Listing.objects.get(id=id)
+            
+        except Listing.DoesNotExist:
+            raise NotFound("Listing not found.")
+
+        # Check if the favorite already exists
+        if Favorite.objects.filter(user=request.user, listing=listing).exists():
+            raise ValidationError("You have already favorited this listing.")
+
+        # Create the favorite
+        favorite = Favorite.objects.create(user=request.user, listing=listing)
+        serializer = FavoriteSerializer(favorite)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    # Remove a bookmark
+    def delete(self, request, id):
+
+        try:
+            listing = Listing.objects.get(id=id)
+
+        except Listing.DoesNotExist:
+            raise NotFound("Listing not found.")
+
+        # Check if the favorite exists
+        favorite = Favorite.objects.filter(user=request.user, listing=listing).first()
+        if not favorite:
+            raise NotFound("Favorite not found.")
+
+        # Delete the favorite
+        favorite.delete()
+        return Response({"message": "Favorite removed successfully."}, status=status.HTTP_204_NO_CONTENT)

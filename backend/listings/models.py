@@ -9,6 +9,7 @@ STATUS_CHOICES = [
     ('EXPIRED', 'Expired'),          
 ]
 
+# Basic Listing model
 class Listing(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
@@ -21,7 +22,7 @@ class Listing(models.Model):
     def __str__(self):
         return self.title
 
-
+# Images model
 class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='listings/')
@@ -37,4 +38,17 @@ def update_listing_status(sender, instance, **kwargs):
         listing.save(update_fields=['status'])
 
 post_save.connect(update_listing_status, sender=ListingImage)
+
+# Bookmarking model
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    listing = models.ForeignKey('Listing', on_delete=models.CASCADE, related_name="favorited_by")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'listing')  # Prevent duplicate favorites for the same user-listing pair
+        ordering = ['-created_at']  # Newest favorites first
+
+    def __str__(self):
+        return f"{self.user.username} favorited {self.listing.title}"
 
