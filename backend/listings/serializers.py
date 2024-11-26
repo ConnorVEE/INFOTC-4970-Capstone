@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Listing, ListingImage
+from .models import Listing, ListingImage, Favorite
 from rest_framework.exceptions import ValidationError
 
 ## HERE FOR TESTING/DEVELOPMENT
@@ -34,7 +34,9 @@ class ListingImageSerializer(serializers.ModelSerializer):
 
 # Serializer for entire Listing model
 class ListingSerializer(serializers.ModelSerializer):
+
     images = ListingImageSerializer(many=True, read_only=True)
+    is_favorited = serializers.SerializerMethodField() 
 
     class Meta:
         model = Listing
@@ -43,3 +45,11 @@ class ListingSerializer(serializers.ModelSerializer):
             'user', 'category', 'status', 'images'
         ]
         read_only_fields = ['id', 'date_created', 'user', 'status']
+
+
+# Serializer for bookmarking/favoriting
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Favorite
+        fields = ['id', 'user', 'listing', 'created_at']
+        read_only_fields = ['id', 'created_at']
