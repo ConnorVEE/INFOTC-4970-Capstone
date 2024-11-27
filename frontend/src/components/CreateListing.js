@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
 import './CreateListing.css'; 
@@ -38,6 +39,7 @@ const CreateListing = () => {
 
     return (
         <div className="create-listing-container">
+            <Navbar />
             <h2>Create a New Listing</h2>
             <form onSubmit={handleSubmit}>
                 <div>
@@ -58,8 +60,9 @@ const CreateListing = () => {
                     ></textarea>
                 </div>
                 <div>
-                    <label>Price: </label>
+                    <label>Price($):</label>
                     <input
+                        min="0"
                         type="number"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
@@ -68,16 +71,25 @@ const CreateListing = () => {
                 </div>
                 <div>
                     <label>Category: </label>
-                    <input
+                    <select
                         type="text"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        required
-                    />
+                        required>
+                        <option value="" disabled>Select a category</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Clothing">Clothing</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Books">Books</option>
+                    </select>
                 </div>
                 <button type="submit" disabled={loading}>
                     {loading ? 'Creating...' : 'Create Listing'}
                 </button>
+            </form>
+            <form action="/home" method="get">
+                <button type="submit">Go to Home</button>
             </form>
             {errorMessage && <div className="error-message">{errorMessage}</div>}
         </div>
