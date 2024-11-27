@@ -31,10 +31,37 @@ const Home = () => {
     
         fetchListings();
     }, []);
+
+    const categories = [
+        'All',
+        'Electronics',
+        'Clothing',
+        'Furniture',
+        'Sports',
+        'Books',
+    ];
+
+    const [activeCategory, setActiveCategory] = useState('All');
+    
+    const filteredListings = activeCategory === 'All'
+        ? products
+        : products.filter(product => product.category.toLowerCase() === activeCategory.toLowerCase());
     
     return (
         <div className="home-container">
             <Navbar /> {/* Include the Navbar here */}
+
+            <div className="tabs">
+                {categories.map((category) => (
+                    <button
+                        key={category}
+                        className={`tab ${activeCategory === category ? 'active' : ''}`}
+                        onClick={() => setActiveCategory(category)}
+                    >
+                        {category}
+                    </button>
+                ))}
+            </div>
 
             <div>
                 <button className="button3" type="submit" onClick={logout}>Log out</button>
@@ -50,7 +77,7 @@ const Home = () => {
 
             <div className="grid-container">
 
-                {products.map(product => (
+                {filteredListings.map(product => (
                     <Link 
                         key={product.id} 
                         to={`/listing/${product.id}`} 

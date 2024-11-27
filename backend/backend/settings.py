@@ -29,9 +29,9 @@ DEBUG = True
 ALLOWED_HOSTS = ["*"] # we're all allowed to host
 
 REST_FRAMEWORK = { # got this from a youtube video, its the rest framework authentication token classes
-    "DEFAULT_AUTHENTICATION_CLASSES": (
+    "DEFAULT_AUTHENTICATION_CLASSES": [        
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    ],
     "DEFAULT_PERMISSION_CLASSES": [
         "rest_framework.permissions.IsAuthenticated",
     ],
@@ -44,7 +44,7 @@ SIMPLE_JWT = {
     "BLACKLIST_AFTER_ROTATION": True,
     "ALGORITHM": "HS256",
     "SIGNING_KEY": SECRET_KEY,
-    "AUTH_HEADER_TYPES": ("Bearer",),
+    "AUTH_HEADER_TYPES": ('Bearer',),
 }
 
 # Application definition
