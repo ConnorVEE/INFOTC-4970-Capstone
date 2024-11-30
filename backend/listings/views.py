@@ -13,7 +13,7 @@ from .serializers import ListingSerializer, ListingImageSerializer
 class ListingCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         # Create the listing using the serializer
         serializer = ListingSerializer(data=request.data)
         
