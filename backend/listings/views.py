@@ -67,7 +67,6 @@ class ListingImageUploadView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Views for Bookmarking
-
 class FavoriteListingView(APIView):
 
     permission_classes = [IsAuthenticated]

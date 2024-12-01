@@ -34,7 +34,6 @@ class ListingImageSerializer(serializers.ModelSerializer):
 
 # Serializer for entire Listing model
 class ListingSerializer(serializers.ModelSerializer):
-
     images = ListingImageSerializer(many=True, read_only=True)
     is_favorited = serializers.SerializerMethodField() 
 
@@ -42,9 +41,16 @@ class ListingSerializer(serializers.ModelSerializer):
         model = Listing
         fields = [
             'id', 'title', 'description', 'price', 'date_created', 
-            'user', 'category', 'status', 'images'
+            'user', 'category', 'status', 'images', 'is_favorited'
         ]
         read_only_fields = ['id', 'date_created', 'user', 'status']
+
+    def get_is_favorited(self, obj):
+        # Check if the current user has favorited the listing
+        user = self.context['request'].user
+        if user.is_authenticated:
+            return Favorite.objects.filter(user=user, listing=obj).exists()
+        return False
 
 
 # Serializer for bookmarking/favoriting

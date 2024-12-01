@@ -31,6 +31,34 @@ const Home = () => {
     
         fetchListings();
     }, []);
+
+    const handleFavoriteToggle = async (event, listingId) => {
+        event.preventDefault(); // Prevent link navigation
+        try {
+            const product = products.find((p) => p.id === listingId);
+            const method = product.is_favorited ? 'DELETE' : 'POST';
+
+    
+            // Toggle favorite via API
+            await axiosInstance({
+                url: `/listings/${listingId}/favorite/`,
+                method: method,
+            });
+    
+            // Update local state to reflect the new favorite status
+            setProducts((prevProducts) =>
+                prevProducts.map((p) =>
+                    p.id === listingId
+                        ? { ...p, is_favorited: !p.is_favorited }
+                        : p
+                )
+            );
+            
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+    };
+    
     
     return (
         <div className="home-container">
@@ -50,24 +78,38 @@ const Home = () => {
 
             <div className="grid-container">
 
-                {products.map(product => (
-                    <Link 
-                        key={product.id} 
-                        to={`/listing/${product.id}`} 
-                        className="listing-link" 
-                        style={{ textDecoration: 'none', color: 'inherit' }}
-                    >
-                        <div className="listing-card">
-                            <img 
-                                src={product.images && product.images.length > 0 ? product.images[0].image : 'default-image.jpg'} 
-                                alt={product.title} 
+                {products.map((product) => (
+
+                    <div key={product.id} className="listing-card">
+
+                        <Link
+                            to={`/listing/${product.id}`}
+                            className="listing-link"
+                            style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                            <img
+                                src={
+                                    product.images && product.images.length > 0
+                                        ? product.images[0].image
+                                        : 'default-image.jpg'
+                                }
+                                alt={product.title}
                             />
                             <h3>{product.title}</h3>
                             <p>{product.price}</p>
-                        </div>
-                    </Link>
+                        </Link>
+
+                        <button
+                            className={`favorite-button ${
+                                product.is_favorited ? 'favorited' : ''
+                            }`}
+                            onClick={(e) => handleFavoriteToggle(e, product.id)}
+                        >
+                            {product.is_favorited ? '★ Favorited' : '☆ Favorite'}
+                        </button>
+
+                    </div>
                 ))}
-                
             </div>
 
         </div>

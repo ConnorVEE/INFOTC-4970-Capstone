@@ -57,3 +57,21 @@
     transform: scale(1.05);
 }
 
+/* CSS for favorite button */
+.favorite-button {
+    border: none;
+    background-color: transparent;
+    color: #527853;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.favorite-button:hover {
+    color: #ee7214;
+}
+
+.favorite-button.favorited {
+    color: #ee7214; /* Highlight favorited items */
+    font-weight: bold;
+}
