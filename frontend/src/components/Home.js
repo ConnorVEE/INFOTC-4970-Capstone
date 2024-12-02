@@ -32,37 +32,36 @@ const Home = () => {
         fetchListings();
     }, []);
 
-    const handleFavoriteToggle = async (event, listingId) => {
-        event.preventDefault(); // Prevent link navigation
-        try {
-            const product = products.find((p) => p.id === listingId);
-            const method = product.is_favorited ? 'DELETE' : 'POST';
+    const categories = [
+        'All',
+        'Electronics',
+        'Clothing',
+        'Furniture',
+        'Sports',
+        'Books',
+    ];
 
+    const [activeCategory, setActiveCategory] = useState('All');
     
-            // Toggle favorite via API
-            await axiosInstance({
-                url: `/listings/${listingId}/favorite/`,
-                method: method,
-            });
-    
-            // Update local state to reflect the new favorite status
-            setProducts((prevProducts) =>
-                prevProducts.map((p) =>
-                    p.id === listingId
-                        ? { ...p, is_favorited: !p.is_favorited }
-                        : p
-                )
-            );
-            
-        } catch (error) {
-            console.error('Error toggling favorite:', error);
-        }
-    };
-    
+    const filteredListings = activeCategory === 'All'
+        ? products
+        : products.filter(product => product.category.toLowerCase() === activeCategory.toLowerCase());
     
     return (
         <div className="home-container">
             <Navbar /> {/* Include the Navbar here */}
+
+            <div className="tabs">
+                {categories.map((category) => (
+                    <button
+                        key={category}
+                        className={`tab ${activeCategory === category ? 'active' : ''}`}
+                        onClick={() => setActiveCategory(category)}
+                    >
+                        {category}
+                    </button>
+                ))}
+            </div>
 
             <div>
                 <button className="button3" type="submit" onClick={logout}>Log out</button>
@@ -78,7 +77,7 @@ const Home = () => {
 
             <div className="grid-container">
 
-                {products.map((product) => (
+                {filteredListings.map((product) => (
 
                     <div key={product.id} className="listing-card">
 
