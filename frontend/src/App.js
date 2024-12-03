@@ -1,19 +1,17 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Account from './components/AccountPage.js';
-import Login from './pages/Login';
-import Home from './pages/Home';
-import Conversations from './Pages/Conversations.js';
-import Cart from './components/Cart';
+import Account from './pages/AccountPage.js';
+import Login from './pages/Login.js';
+import Home from './pages/Home.js';
+import Conversations from './pages/Conversations.js';
 import Sell from './components/Sell';
 import Products from './components/Products';
-import ProtectedRoute from './components/ProtectedRoute.js';
-import Register from './components/Register.js';
+import ProtectedRoute from './utils/ProtectedRoute.js'
+import Register from './pages/Register.js';
 import { CartProvider } from './context/CartContext.js'; 
 import ListingDetail from './components/ListingDetail';
-import CreateListing from './components/CreateListing.js'
+import CreateListing from './components/CreateListing.js';
 
 
 function App() {
@@ -79,15 +77,15 @@ function App() {
               </ProtectedRoute>
           } />
 
-          <Route path="/conversations" element={
-              <ProtectedRoute>
-                  <Conversations />
-              </ProtectedRoute>
-          } />
-
           <Route path="/create-listing" element={
               <ProtectedRoute>
                   <CreateListing />
+              </ProtectedRoute>
+          } />
+
+          <Route path="/conversations" element={
+              <ProtectedRoute>
+                  <Conversations />
               </ProtectedRoute>
           } />
         </Routes>

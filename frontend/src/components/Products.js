@@ -5,7 +5,7 @@
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../context/CartContext.js'; // Ensure the correct path
 import { Link } from 'react-router-dom';
-import '../styles/Products.css'
+import './styles/Products.css'
 import Navbar from './Navbar.js';
 
 const categories = [

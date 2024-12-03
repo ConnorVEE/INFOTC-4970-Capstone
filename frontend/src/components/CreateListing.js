@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
-import './CreateListing.css'; 
+import './styles/CreateListing.css';
 
 const CreateListing = () => {
     const [title, setTitle] = useState('');

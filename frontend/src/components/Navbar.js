@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import MizzouMarketplaceLogo from '../assets/MMLogo.png';
+import MizzouMarketplaceLogo from './assets/MMLogo.png';
 //import '../assets/Navbar';
 
 const Navbar = () => {
