@@ -1,55 +1,163 @@
 import React, { useState, useEffect, useContext } from 'react';
 import Navbar from './Navbar';
+import './Home.css';
 import { AuthContext } from '../context/AuthContext';
-
-// Testing 
-// import axiosInstance from '../api/axiosInstance'; 
+import axiosInstance from '../api/axiosInstance';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
     const { logout } = useContext(AuthContext);
     const [products, setProducts] = useState([]);
 
-
-
-    // Testing
-    // const getUserProfile = async () => {
-    //     try {
-    //         const response = await axiosInstance.get('/users/get-user-profile/');
-    //         console.log('User profile data:', response.data);
-    //     } catch (error) {
-    //         console.log("Didn't work")
-    //         // console.error('Error fetching user profile:', error);
-    //     }
-    // };
-
-
-
-
     useEffect(() => {
-        // Simulating fetching products
-        const fetchedProducts = [
-            { id: 1, name: 'Product 1', price: "$10", image: "https://cdn.pixabay.com/photo/2024/01/21/20/09/ai-generated-8523907_640.png" },
-            { id: 2, name: 'Product 2', price: "$20", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTk_--e9z4i_m5j56h3lFlA-GBSkvEM4QHS5A&s" },
-            { id: 3, name: 'Product 3', price: "$30", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqp-yfvcN-oCMg0gS1BsfwfN9Sex-7VQHSEQ&s" },
-        ];
-        setProducts(fetchedProducts);
+        // Fetch listings from the backend
+        const fetchListings = async () => {
+            try {
+                const response = await axiosInstance.get('/listings/all/');
+    
+                const fetchedListings = response.data.map(listing => ({
+                    ...listing,
+                    images: listing.images.map(image => ({
+                        ...image,
+                        image: `http://localhost:8000${image.image}`  // Prepend full URL to image path
+                    }))
+                }));
+    
+                setProducts(fetchedListings);
+            } catch (error) {
+                console.error("Error fetching listings:", error);
+            }
+        };
+    
+        fetchListings();
     }, []);
 
+    const categories = [
+        'All',
+        'Electronics',
+        'Clothing',
+        'Furniture',
+        'Sports',
+        'Books',
+    ];
+
+    const [activeCategory, setActiveCategory] = useState('All');
+    
+    const filteredListings = activeCategory === 'All'
+        ? products
+        : products.filter(product => product.category.toLowerCase() === activeCategory.toLowerCase());
+
+    // Handle favoriting and unfavoriting 
+    
+    // Debouncing function used to stop rapid user API calls
+    function debounce(func, wait) {
+        let timeout;
+
+        return function (...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+
+    }
+    
+    const debouncedFavoriteToggle = debounce(async (event, listingId) => {
+        event.preventDefault(); // Prevent link navigation
+        
+        try {
+            const product = products.find((p) => p.id === listingId);
+            const method = product.is_favorited ? 'DELETE' : 'POST';
+
+            // Toggle favorite via API
+            await axiosInstance({
+                url: `/listings/${listingId}/favorite/`,
+                method: method,
+            });
+
+            // Update local state to reflect the new favorite status
+            setProducts((prevProducts) =>
+                prevProducts.map((p) =>
+                    p.id === listingId
+                        ? { ...p, is_favorited: !p.is_favorited }
+                        : p
+                )
+            );
+
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+
+    }, 300); 
+
+    // Usage
+    const handleFavoriteToggle = (event, listingId) => {
+        debouncedFavoriteToggle(event, listingId);
+    };
+
+    
     return (
         <div className="home-container">
             <Navbar /> {/* Include the Navbar here */}
-            <div>
-            {/*<button className="button1" type="submit">Register</button>*/}
-            {/*<button className="button2" type="submit">Login</button>*/}
-            <button className="button3" type="submit" onClick={ logout }>Log out</button>
+
+            <div className="tabs">
+                {categories.map((category) => (
+                    <button
+                        key={category}
+                        className={`tab ${activeCategory === category ? 'active' : ''}`}
+                        onClick={() => setActiveCategory(category)}
+                    >
+                        {category}
+                    </button>
+                ))}
             </div>
 
+            <div>
+                <button className="button3" type="submit" onClick={logout}>Log out</button>
+            </div>
 
-            {/* <div>
-                <h1>Test the Axios Interceptor</h1>
-                <button onClick={getUserProfile}>Get User Profile</button>
-            </div> */}
+            <button>
+                <Link to="/create-listing" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Create Listing!
+                </Link>
+            </button>
 
+            {/* Grid for Listings */}
+
+            <div className="grid-container">
+
+                {filteredListings.map((product) => (
+
+                    <div key={product.id} className="listing-card">
+
+                        <Link
+                            to={`/listing/${product.id}`}
+                            className="listing-link"
+                            style={{ textDecoration: 'none', color: 'inherit' }}
+                        >
+                            <img
+                                src={
+                                    product.images && product.images.length > 0
+                                        ? product.images[0].image
+                                        : 'default-image.jpg'
+                                }
+                                alt={product.title}
+                            />
+                            <h3>{product.title}</h3>
+                            <p>{product.price}</p>
+                        </Link>
+
+                        <button
+                            className={`favorite-button ${
+                                product.is_favorited ? 'favorited' : ''
+                            }`}
+                            onClick={(e) => handleFavoriteToggle(e, product.id)}
+                        >
+                            {product.is_favorited ? '★ Favorited' : '☆ Favorite'}
+                        </button>
+
+                    </div>
+                ))}
+            </div>
 
         </div>
     );

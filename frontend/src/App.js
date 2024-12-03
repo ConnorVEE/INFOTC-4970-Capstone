@@ -9,8 +9,10 @@ import Sell from './components/Sell';
 import Products from './components/Products';
 import ProtectedRoute from './components/ProtectedRoute.js';
 import Register from './components/Register.js';
-import AccountPage from './components/AccountPage'; // Import the AccountPage component
-import { CartProvider } from './context/CartContext.js';
+import { CartProvider } from './context/CartContext.js'; 
+import ListingDetail from './components/ListingDetail';
+import CreateListing from './components/CreateListing.js'
+
 
 function App() {
   return (
@@ -66,19 +68,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Products />
-                </ProtectedRoute>
-              }
-            />
+              </ProtectedRoute>
+          } />
 
-            <Route
-              path="/account"
-              element={
-                <ProtectedRoute>
-                  <AccountPage />
-                </ProtectedRoute>
-              }
-            />
-          </Routes>
+          <Route path="/listing/:id" element={
+              <ProtectedRoute>
+                  <ListingDetail />
+              </ProtectedRoute>
+          } />
+
+          <Route path="/create-listing" element={
+              <ProtectedRoute>
+                  <CreateListing />
+              </ProtectedRoute>
+          } />
+        </Routes>
+
         </div>
       </Router>
     </CartProvider>
