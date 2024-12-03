@@ -1,14 +1,20 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Profile
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth import authenticate
 
 # Serializer for users
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['bio', 'rating']  # Add more fields if needed
+
 class UserSerializer(serializers.ModelSerializer):
+    profile = ProfileSerializer(read_only=True)
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'is_verified', 'profile_picture', 'phone_number']
-
+        fields = ['id', 'username', 'email', 'is_verified', 'profile_picture', 'phone_number', 'profile']
 
 # Serializer for Registering
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -30,7 +36,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
             password=validated_data['password'],
         )
         return user
-
 
 # Serializer for Logging in
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

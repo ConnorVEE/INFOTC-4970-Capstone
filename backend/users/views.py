@@ -10,6 +10,7 @@ from rest_framework_simplejwt.tokens import AccessToken, RefreshToken, TokenErro
 # Local application imports (internal models, serializers, etc.)
 from .models import User
 from .serializers import RegistrationSerializer, UserSerializer, CustomTokenObtainPairSerializer
+from django.conf import settings
 
 @api_view(['POST'])
 @permission_classes([AllowAny])  # This allows unauthenticated users to access this view
@@ -23,12 +24,11 @@ def register_user(request):
             return Response({"message": "User registered successfully.", "user": serializer.data}, status=status.HTTP_201_CREATED)
         
         return Response({"errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-    
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_user_profile(request):
-
+    
     user = request.user
     serializer = UserSerializer(user)
     return Response(serializer.data)
@@ -138,30 +138,44 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def logout_view(request):
-
     response = Response({"success": "Logged out"}, status=status.HTTP_200_OK)
 
-    # Remove the cookies by setting them to expire
-    response.delete_cookie('access_token', path='/')
-    response.delete_cookie('refresh_token', path='/')
-    
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
+
     return response
 
 # Handles token refresh
 class CookieTokenRefreshView(TokenRefreshView):
-    
-    def post(self, request, *args, **kwargs):
-        # Get the refresh token from cookies
-        refresh_token = request.COOKIES.get('refresh_token')
-        
-        if not refresh_token:
-            return Response({"error": "No refresh token found in cookies"}, status=400)
 
-        # Inject the token into the request data so that the serializer can process it
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.COOKIES.get('refresh_token')
+
+        if not refresh_token:
+            return Response({"error": "No refresh token found in cookies"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Inject the token into the request for serializer processing
         request.data['refresh'] = refresh_token
 
-        # Now process the request as usual
         try:
-            return super().post(request, *args, **kwargs)
-        except (TokenError, InvalidToken) as e:
-            return Response({"error": "Invalid or expired refresh token"}, status=400)
+            response = super().post(request, *args, **kwargs)
+
+            # Update cookies with new access token
+            access_token = response.data.get('access')
+
+            if access_token:
+                access_expiry = settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'].total_seconds()
+
+                response.set_cookie(
+                    key='access_token',
+                    value=access_token,
+                    httponly=True,
+                    secure=not settings.DEBUG,
+                    samesite='Lax',
+                    max_age=access_expiry,
+                )
+
+            return response
+        
+        except (TokenError, InvalidToken):
+            return Response({"error": "Invalid or expired refresh token"}, status=status.HTTP_400_BAD_REQUEST)

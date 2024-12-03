@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import '../styles/Register.css';
-
+import axiosInstance from '../api/axiosInstance';
 const Register = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -26,6 +26,7 @@ const Register = () => {
   };
 
     const handleSubmit = async (e) => {
+        
         e.preventDefault();
         setLoading(true);
         setErrorMessage('');
@@ -34,26 +35,43 @@ const Register = () => {
           setErrorMessage('Please enter a valid email address ending with @umsystem.edu');
           setLoading(false);
           return;
-      }
+        }
 
         try {
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/..api/axiosInstance.js`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, email, password })
+            setLoading(true);
+            setErrorMessage('');
+        
+            // Replace fetch with axiosInstance
+            const response = await axiosInstance.post('/users/register/', {
+                username,
+                email,
+                password
             });
-
-            if (response.ok) {
-                // Auto-login user after successful registration
+        
+            // Handle successful registration
+            if (response.status === 201) { 
                 await login(username, password);
-                navigate('/login');  // Redirect to home page
+                setLoading(false);
+                navigate('/home');
+            } else {
+                setErrorMessage('Registration failed. Please try again.');
+            }
+
+        } catch (error) {
+            if (error.response) {
+                // The server responded with a status other than 2xx
+                const data = error.response.data;
+                setErrorMessage(data.error || 'Registration failed. Please try again.');
+
+            } else if (error.request) {
+                // The request was made but no response received
+                setErrorMessage('Network error. Please try again.');
 
             } else {
-                const data = await response.json();
-                setErrorMessage(data.error || 'Registration failed. Please try again.');
+                // Something else happened while setting up the request
+                setErrorMessage('An unexpected error occurred. Please try again.');
+
             }
-        } catch (error) {
-            setErrorMessage('An unexpected error occurred. Please try again.');
         } finally {
             setLoading(false);
         }

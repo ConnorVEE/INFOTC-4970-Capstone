@@ -2,56 +2,80 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import Account from './components/AccountPage.js';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import Conversations from './pages/Conversations.js';
+import Conversations from './Pages/Conversations.js';
 import Cart from './components/Cart';
 import Sell from './components/Sell';
 import Products from './components/Products';
-import ProtectedRoute from './utils/ProtectedRoute.js';
-import Register from './pages/Register.js';
-import { CartProvider } from './context/CartContext.js';
+import ProtectedRoute from './components/ProtectedRoute.js';
+import Register from './components/Register.js';
+import { CartProvider } from './context/CartContext.js'; 
+import ListingDetail from './components/ListingDetail';
+import CreateListing from './components/CreateListing.js'
 
 
-//I cleaned up this routes page.
-//We could always make a second "Routes file" to keep everyhting organized down the line if we keep adding to this
 function App() {
   return (
     <CartProvider>
-
       <Router>
-
         <div>
+          <nav>
+            {/*got rid of nav home/login here */}
+          </nav>
 
-        <nav>
-          {/*got rid of nav home/login here */}
-        </nav>
-
-        <Routes>
-          <Route path="/" element={
-              <ProtectedRoute>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
                   <Home />
-              </ProtectedRoute>
-          } />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
 
-          <Route path="/home" element={
-              <ProtectedRoute>
+            <Route
+              path="/home"
+              element={
+                <ProtectedRoute>
                   <Home />
-              </ProtectedRoute>
-          } />
+                </ProtectedRoute>
+              }
+            />
 
-          <Route path="/sell" element={
-              <ProtectedRoute>
+            <Route
+              path="/sell"
+              element={
+                <ProtectedRoute>
                   <Sell />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <Account />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/products"
+              element={
+                <ProtectedRoute>
+                  <Products />
               </ProtectedRoute>
           } />
 
-          <Route path="/cart" element={
+          <Route path="/listing/:id" element={
               <ProtectedRoute>
-                  <Cart />
+                  <ListingDetail />
               </ProtectedRoute>
           } />
 
@@ -61,17 +85,15 @@ function App() {
               </ProtectedRoute>
           } />
 
-          <Route path="/products" element={
+          <Route path="/create-listing" element={
               <ProtectedRoute>
-                  <Products />
+                  <CreateListing />
               </ProtectedRoute>
           } />
-</Routes>
+        </Routes>
 
         </div>
-
       </Router>
-
     </CartProvider>
   );
 }

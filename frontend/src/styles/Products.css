@@ -1,14 +1,17 @@
 .products-container nav {
-    background-color: #f1b82d; /* Dark background color */
+    background-color: #333; /* Dark background color */
     color: white; /* Text color */
-    padding: 15px 0;
+    padding: 15px;
+    width: 100%;
     cursor: pointer;
+    display: flex;  
+
 }
 
 .tabs {
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .tab {
@@ -32,8 +35,7 @@
 }
 
 .products-container {
-    padding: 20px;
-}
+    display: grid;}
 
 ul {
     list-style: none;
