@@ -44,9 +44,9 @@ const Login = () => {
 
     return (
         <div className="login-container">
-            <nav><Link to="/home">HOME!</Link></nav>
             <img src={MizzouMarketplaceLogo} alt="Mizzou Marketplace Logo" className="logo" />
             <h2>Login to Mizzou Marketplace</h2>
+
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Username: </label>
@@ -70,6 +70,7 @@ const Login = () => {
                         disabled={loading}
                     />
                 </div>
+                
                 <button type="submit" disabled={loading}>
                     {loading ? 'Logging in...' : 'Login'}
                 </button>

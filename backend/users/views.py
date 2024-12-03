@@ -139,8 +139,8 @@ class CustomTokenObtainPairView(TokenObtainPairView):
 def logout_view(request):
     response = Response({"success": "Logged out"}, status=status.HTTP_200_OK)
 
-    response.delete_cookie('access_token', httponly=True, secure=not settings.DEBUG, samesite='Lax')
-    response.delete_cookie('refresh_token', httponly=True, secure=not settings.DEBUG, samesite='Lax')
+    response.delete_cookie('access_token')
+    response.delete_cookie('refresh_token')
 
     return response
 

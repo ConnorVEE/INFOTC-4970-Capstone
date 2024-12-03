@@ -48,7 +48,7 @@ const Home = () => {
         : products.filter(product => product.category.toLowerCase() === activeCategory.toLowerCase());
 
     // Handle favoriting and unfavoriting 
-
+    
     // Debouncing function used to stop rapid user API calls
     function debounce(func, wait) {
         let timeout;
