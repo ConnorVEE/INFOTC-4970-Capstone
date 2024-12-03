@@ -46,6 +46,54 @@ const Home = () => {
     const filteredListings = activeCategory === 'All'
         ? products
         : products.filter(product => product.category.toLowerCase() === activeCategory.toLowerCase());
+
+    // Handle favoriting and unfavoriting 
+
+    // Debouncing function used to stop rapid user API calls
+    function debounce(func, wait) {
+        let timeout;
+
+        return function (...args) {
+            const context = this;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(context, args), wait);
+        };
+
+    }
+    
+    const debouncedFavoriteToggle = debounce(async (event, listingId) => {
+        event.preventDefault(); // Prevent link navigation
+        
+        try {
+            const product = products.find((p) => p.id === listingId);
+            const method = product.is_favorited ? 'DELETE' : 'POST';
+
+            // Toggle favorite via API
+            await axiosInstance({
+                url: `/listings/${listingId}/favorite/`,
+                method: method,
+            });
+
+            // Update local state to reflect the new favorite status
+            setProducts((prevProducts) =>
+                prevProducts.map((p) =>
+                    p.id === listingId
+                        ? { ...p, is_favorited: !p.is_favorited }
+                        : p
+                )
+            );
+
+        } catch (error) {
+            console.error('Error toggling favorite:', error);
+        }
+
+    }, 300); 
+
+    // Usage
+    const handleFavoriteToggle = (event, listingId) => {
+        debouncedFavoriteToggle(event, listingId);
+    };
+
     
     return (
         <div className="home-container">

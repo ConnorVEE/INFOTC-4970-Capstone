@@ -26,6 +26,7 @@ const Register = () => {
   };
 
     const handleSubmit = async (e) => {
+        
         e.preventDefault();
         setLoading(true);
         setErrorMessage('');
@@ -34,7 +35,7 @@ const Register = () => {
           setErrorMessage('Please enter a valid email address ending with @umsystem.edu');
           setLoading(false);
           return;
-      }
+        }
 
 
         // ERROR HERE, WRONG URL

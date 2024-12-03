@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.exceptions import NotFound, ValidationError
+from django.db import transaction
 
 # Local application imports (internal models, serializers, etc.)
 from .models import Listing, Favorite
@@ -69,42 +70,88 @@ class ListingImageUploadView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # Views for Bookmarking
-class FavoriteListingView(APIView):
+# class FavoriteListingView(APIView):
 
+#     permission_classes = [IsAuthenticated]
+
+#     # Bookmark a listing
+#     def post(self, request, id):
+#         try:
+#             listing = Listing.objects.get(id=id)
+#         except Listing.DoesNotExist:
+#             raise NotFound("Listing not found.")
+
+#         # Either get the existing favorite or create a new one
+#         favorite, created = Favorite.objects.get_or_create(user=request.user, listing=listing)
+
+#         if not created:
+#             # If the favorite already exists, notify the user (optional)
+#             return Response(
+#                 {"detail": "You have already favorited this listing."},
+#                 status=status.HTTP_200_OK
+#             )
+
+#         serializer = FavoriteSerializer(favorite)
+#         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+#     # Remove a bookmark
+#     def delete(self, request, id):
+
+#         try:
+#             listing = Listing.objects.get(id=id)
+
+#         except Listing.DoesNotExist:
+#             raise NotFound("Listing not found.")
+
+#         # Check if the favorite exists
+#         favorite = Favorite.objects.filter(user=request.user, listing=listing).first()
+#         if not favorite:
+#             raise NotFound("Favorite not found.")
+
+#         # Delete the favorite
+#         favorite.delete()
+#         return Response({"message": "Favorite removed successfully."}, status=status.HTTP_204_NO_CONTENT)
+
+class FavoriteListingView(APIView):
     permission_classes = [IsAuthenticated]
 
     # Bookmark a listing
     def post(self, request, id):
-
         try:
             listing = Listing.objects.get(id=id)
-            
         except Listing.DoesNotExist:
             raise NotFound("Listing not found.")
 
-        # Check if the favorite already exists
-        if Favorite.objects.filter(user=request.user, listing=listing).exists():
-            raise ValidationError("You have already favorited this listing.")
+        # Use atomic transaction to ensure operation consistency
+        with transaction.atomic():
+            # Either get the existing favorite or create a new one
+            favorite, created = Favorite.objects.get_or_create(user=request.user, listing=listing)
 
-        # Create the favorite
-        favorite = Favorite.objects.create(user=request.user, listing=listing)
+            if not created:
+                # If the favorite already exists, notify the user (optional)
+                return Response(
+                    {"detail": "You have already favorited this listing."},
+                    status=status.HTTP_200_OK
+                )
+
         serializer = FavoriteSerializer(favorite)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     # Remove a bookmark
     def delete(self, request, id):
-
         try:
             listing = Listing.objects.get(id=id)
-
         except Listing.DoesNotExist:
             raise NotFound("Listing not found.")
 
-        # Check if the favorite exists
-        favorite = Favorite.objects.filter(user=request.user, listing=listing).first()
-        if not favorite:
-            raise NotFound("Favorite not found.")
+        # Use atomic transaction to ensure operation consistency
+        with transaction.atomic():
+            # Check if the favorite exists
+            favorite = Favorite.objects.filter(user=request.user, listing=listing).first()
+            if not favorite:
+                raise NotFound("Favorite not found.")
 
-        # Delete the favorite
-        favorite.delete()
+            # Delete the favorite
+            favorite.delete()
+
         return Response({"message": "Favorite removed successfully."}, status=status.HTTP_204_NO_CONTENT)

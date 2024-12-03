@@ -75,7 +75,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    # 'utils.auth.JWTAuthenticationFromCookieMiddleware',
+    'utils.auth.JWTAuthenticationFromCookieMiddleware',
 ]
 
 CORS_ALLOW_CREDENTIALS = True  # Allows cookies in cross-origin requests

@@ -73,7 +73,6 @@ const AuthProvider = ({ children }) => {
 
     if (loading) return <div>Loading...</div>;
 
-    // I cut out 'loading' because it breaks the application
     return (
         <AuthContext.Provider value={{ isAuthenticated, login, logout, user, setUser }}>
             {children}
