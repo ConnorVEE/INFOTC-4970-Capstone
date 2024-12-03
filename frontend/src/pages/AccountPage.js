@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../api/axiosInstance';
-import './styles/AccountPage.css';
+import '../styles/AccountPage.css';
 
 const AccountPage = () => {
     const navigate = useNavigate();

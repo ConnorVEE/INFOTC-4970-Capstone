@@ -6,7 +6,7 @@ import axiosInstance from '../api/axiosInstance';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import './styles/ListingDetail.css';
+import '../styles/ListingDetail.css';
 
 const ListingDetail = () => {
     const { id } = useParams();
