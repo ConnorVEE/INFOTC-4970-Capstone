@@ -2,7 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import './AccountPage.css';
 
+import { useNavigate } from 'react-router-dom';
+
+
 const AccountPage = () => {
+    const navigate = useNavigate();
+
     const [userData, setUserData] = useState({
         profilePicture: '',
         bio: '',
@@ -65,11 +70,14 @@ const AccountPage = () => {
     return (
         <div className="account-container">
             <div className="account-header">
+                <button onClick={() => navigate(-1)} className="back-button">Back</button>
+
                 <img
                     src={userData.profilePicture}
                     alt="Profile"
                     className="profile-picture"
                 />
+
                 {isEditing && (
                     <div className="profile-picture-upload">
                         <label htmlFor="profilePicture">Change Profile Picture</label>
@@ -81,8 +89,10 @@ const AccountPage = () => {
                         />
                     </div>
                 )}
+
                 <div className="account-info">
                     <h1>My Account</h1>
+
                     {isEditing ? (
                         <textarea
                             name="bio"
@@ -93,6 +103,7 @@ const AccountPage = () => {
                     ) : (
                         <p className="bio">{userData.bio}</p>
                     )}
+
                     {isEditing ? (
                         <>
                             <input
@@ -113,6 +124,7 @@ const AccountPage = () => {
                             {userData.degree} - {userData.year}
                         </p>
                     )}
+
                 </div>
             </div>
 
