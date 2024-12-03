@@ -65,8 +65,6 @@ const ListingDetail = () => {
                 <div className="swiper-button-next"></div>
             </Swiper>
 
-
-
             <p>{listing.description}</p>
             <p>Price: {listing.price}</p>
 

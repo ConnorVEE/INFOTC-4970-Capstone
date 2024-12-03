@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 import Login from './components/Login';
 import Home from './components/Home';
-import Cart from './components/Cart';
+import Account from './components/AccountPage.js';
 import Sell from './components/Sell';
 import Products from './components/Products';
 import ProtectedRoute from './components/ProtectedRoute.js';
@@ -55,10 +55,10 @@ function App() {
             />
 
             <Route
-              path="/cart"
+              path="/account"
               element={
                 <ProtectedRoute>
-                  <Cart />
+                  <Account />
                 </ProtectedRoute>
               }
             />
