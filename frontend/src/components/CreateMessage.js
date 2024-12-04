@@ -24,7 +24,7 @@ const CreateMessage = () => {
             });
 
             // Redirect on success
-            navigate(`/conversations/${response.data.conversation_id}`);
+            navigate(`/conversations/${response.data.conversation_id}/messages`);
         } catch (error) {
             console.error('Error sending message: ', error);
             setErrorMessage('Failed to send message.');

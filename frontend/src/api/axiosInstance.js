@@ -4,6 +4,9 @@ import { logout }from '../services/auth';
 const axiosInstance = axios.create({
     // Our backend
     baseURL: 'http://localhost:8000/api', 
+    headers: {
+        'Content-Type': 'application/json',
+    },
     // Tells Axios to send cookies with every request
     withCredentials: true 
 });

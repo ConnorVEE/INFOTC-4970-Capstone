@@ -19,7 +19,7 @@ const CreateListing = () => {
         setErrorMessage('');
 
         try {
-            const response = await axiosInstance.post('create/', {
+            const response = await axiosInstance.post('/listings/create/', {
                 title,
                 description,
                 price,

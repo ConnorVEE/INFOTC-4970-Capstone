@@ -19,7 +19,7 @@ class ListingCreateView(APIView):
 
     def post(self, request, *args, **kwargs):
         # Create the listing using the serializer
-        serializer = ListingSerializer(data=request.data)
+        serializer = ListingSerializer(data=request.data, context={'request': request})
         
         if serializer.is_valid():
             # Assign the authenticated user to the listing
