@@ -1,45 +1,40 @@
 import axiosInstance from "../api/axiosInstance";
 
-const fetchConversations = async () => { // Fetch all conversations
+// Fetch all conversations
+export const fetchConversations = async () => {
     try {
-        const response = await axiosInstance.get('http://localhost:8000/api/conversations/');
+        const response = await axiosInstance.get('/conversations/');
         return response.data;
     } catch (error) {
-        if (error.response) {
-            if (error.respone) {
-                console.error('Error response:', error.response.data);
-                throw new Error(error.response.data.detail || 'Failed to fetch conversations');
-            } else if (error.request) {
-                console.error('Error request:', error.request);
-                throw new Error('No response from server.');
-            } else {
-                console.error('Error message:', error.message);
-                throw new Error('An error occurred: ' + error.message);
-            }
-        }
+        console.error('Error fetching conversations: ', error);
+        throw error;
     }
 };
 
-const fetchMessages = async (conversationId) => { // Display the messages sent for an individual conversation
+// Fetch messages for specific conversation
+export const fetchMessages = async (conversationId) => {
     try {
         const response = await axiosInstance.get(
-            `http://localhost:8000/api/conversations/${conversationId}/messages`
+            `/conversations/${conversationId}/messages`
         );
         return response.data;
     } catch (error) {
-        if (error.response) {
-            if (error.respone) {
-                console.error('Error response:', error.response.data);
-                throw new Error(error.response.data.detail || 'Failed to fetch conversation');
-            } else if (error.request) {
-                console.error('Error request:', error.request);
-                throw new Error('No response from server.');
-            } else {
-                console.error('Error message:', error.message);
-                throw new Error('An error occurred: ' + error.message);
-            }
-        }
+        console.error('Error fetching messages: ', error);
+        throw error;
     }
 };
 
-export { fetchConversations, fetchMessages };
+// Send a new message in a conversation
+export const sendMessage = async (conversationId, messageContent) => {
+    try {
+        const response = await axiosInstance.post(
+            `/conversations/${conversationId}/messages`, {
+                content: messageContent
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error('Error sending message: ', error);
+        throw error;
+    }
+};

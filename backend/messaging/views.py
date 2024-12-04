@@ -1,17 +1,12 @@
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth import get_user_model
-
-# Local application imports (models, serializers, etc...)
+from rest_framework.permissions import IsAuthenticated
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from listings.models import Listing
 
-User = get_user_model()
-
-class ConversationView(APIView):
+class ConversationListView(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
@@ -32,8 +27,7 @@ class ConversationView(APIView):
         
         # Check if converation already exists
         existing_conversation = Conversation.objects.filter(
-            listing=listing, 
-            participants=request.user
+            listing=listing, participants=request.user
         ).filter(participants=listing.user).first()
         
         if existing_conversation:
@@ -57,7 +51,7 @@ class MessageView(APIView):
         except Conversation.DoesNotExist:
             return Response({"error": "Conversation not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        messages = Message.objects.filter(conversation=conversation)
+        messages = conversation.messages.all()
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
     
