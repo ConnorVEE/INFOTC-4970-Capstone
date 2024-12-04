@@ -11,16 +11,16 @@ class ConversationSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Conversation
-        fields = ['id', 'listing', 'participants', 'last_message', 'created_at']
+        fields = ['id', 'listing', 'participants', 'last_message', 'date_created']
         
     def get_last_message(self, obj):
         # Fetch most recent message from conversation
-        last_message = obj.messages.order_by('-created_at').first()
+        last_message = obj.messages.order_by('-date_created').first()
         if last_message:
             return {
                 'content': last_message.content,
                 'sender': last_message.sender.username,
-                'created_at': last_message.created_at
+                'date_created': last_message.date_created
             }
         return None
 class MessageSerializer(serializers.ModelSerializer):
@@ -30,5 +30,5 @@ class MessageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Message
-        fields = ['id', 'sender', 'recipient', 'content', 'created_at']
+        fields = ['id', 'sender', 'recipient', 'content', 'date_created']
         read_only_fields = ['id', 'date_created']    

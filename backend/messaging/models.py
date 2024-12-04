@@ -6,7 +6,9 @@ class Conversation(models.Model):
     # Participants in the conversation
     participants = models.ManyToManyField(User, related_name='conversations')
     # Reference to Listing model
-    listing = models.ForeignKey(Listing, related_name='conversations', on_delete=models.CASCADE)
+    listing = models.ForeignKey(
+        Listing, on_delete=models.SET_NULL, null=True, blank=True, related_name='conversations'
+    )
     date_created = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):

@@ -72,7 +72,7 @@ const Conversations = () => {
                                 </div>
 
                                 <div className='conversation-participants'>
-                                    Participants: {conversation.participants
+                                    {conversation.participants
                                         .map((participant) => participant.username)
                                         .join(', ')}
                                 </div>

@@ -121,6 +121,12 @@ const Home = () => {
                 </Link>
             </button>
 
+            <button>
+                <Link to="/create-message" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    Send a Message!
+                </Link>
+            </button>
+
             {/* Grid for Listings */}
 
             <div className="grid-container">

@@ -12,6 +12,7 @@ import Register from './pages/Register.js';
 import { CartProvider } from './context/CartContext.js'; 
 import ListingDetail from './components/ListingDetail';
 import CreateListing from './components/CreateListing.js';
+import CreateMessage from './components/CreateMessage.js';
 
 
 function App() {
@@ -87,6 +88,12 @@ function App() {
               <ProtectedRoute>
                   <Conversations />
               </ProtectedRoute>
+          } />
+
+          <Route path="/create-message" element={
+            <ProtectedRoute>
+              <CreateMessage />
+            </ProtectedRoute>
           } />
         </Routes>
 

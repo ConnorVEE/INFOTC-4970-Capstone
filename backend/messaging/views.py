@@ -2,6 +2,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+
+from users.models import User
 from .models import Conversation, Message
 from .serializers import ConversationSerializer, MessageSerializer
 from listings.models import Listing
@@ -17,30 +19,61 @@ class ConversationListView(APIView):
         return Response(serializer.data)
     
     def post(self, request):
-        # Retrieve listing ID and check to make sure it exists
         listing_id = request.data.get('listing')
         try:
             listing = Listing.objects.get(id=listing_id)
         except Listing.DoesNotExist:
-            # Return 404 error if listing doesn't exist
             return Response({"error": "Listing not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-        # Check if converation already exists
+
         existing_conversation = Conversation.objects.filter(
             listing=listing, participants=request.user
-        ).filter(participants=listing.user).first()
-        
+        ).first()
         if existing_conversation:
             serializer = ConversationSerializer(existing_conversation)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        
-        # Create a new conversation
+
         conversation = Conversation.objects.create(listing=listing)
         conversation.participants.add(request.user, listing.user)
         serializer = ConversationSerializer(conversation)
-        
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
+class StartConversationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        username = request.data.get('username')
+        title = request.data.get('title', '')
+        content = request.data.get('content')
+
+        if not username or not content:
+            return Response({"error": "Username and content are required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            recipient = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({"error": "Recipient not found."}, status=status.HTTP_404_NOT_FOUND)
+
+        # Check if a conversation already exists
+        conversation = Conversation.objects.filter(participants=request.user).filter(participants=recipient).first()
+
+        if not conversation:
+            # Create a new conversation
+            conversation = Conversation.objects.create(listing=None)
+            conversation.participants.add(request.user, recipient)
+
+        # Create the message
+        message = Message.objects.create(
+            conversation=conversation,
+            sender=request.user,
+            recipient=recipient,
+            content=content,
+        )
+
+        return Response(
+            {"conversation_id": conversation.id, "message_id": message.id},
+            status=status.HTTP_201_CREATED
+        )
+
 class MessageView(APIView):
     permission_classes = [IsAuthenticated]
     
