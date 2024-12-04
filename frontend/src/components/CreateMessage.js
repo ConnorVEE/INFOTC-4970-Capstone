@@ -17,7 +17,7 @@ const CreateMessage = () => {
         setErrorMessage('');
 
         try {
-            const response = await axiosInstance.post('conversations/start/', {
+            const response = await axiosInstance.post('/conversations/start/', {
                 username,
                 title,
                 content,

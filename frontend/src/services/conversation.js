@@ -28,9 +28,8 @@ export const fetchMessages = async (conversationId) => {
 export const sendMessage = async (conversationId, messageContent) => {
     try {
         const response = await axiosInstance.post(
-            `/conversations/${conversationId}/messages`, {
-                content: messageContent
-            }
+            `/conversations/${conversationId}/messages/`, 
+            { content: messageContent }
         );
         return response.data;
     } catch (error) {

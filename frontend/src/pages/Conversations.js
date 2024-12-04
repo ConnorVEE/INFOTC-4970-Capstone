@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchConversations } from '../services/conversation.js';
+import Navbar from '../components/Navbar.js';
 import '../styles/Conversations.css'
 
 const Conversations = () => {
@@ -42,6 +43,7 @@ const Conversations = () => {
 
     return (
         <div className='conversations-container'>
+            <Navbar />
             <h2>Your Conversations</h2>
 
             {/* Display loading state */}
@@ -67,7 +69,7 @@ const Conversations = () => {
                                 <div className='conversation-header'>
                                     <h3>Listing: {conversation.listing?.title || 'Unknown'}</h3>
                                     <span className='conversation-date'>
-                                        {new Date(conversation.created_at).toLocaleDateString()}
+                                        {new Date(conversation.date_created).toLocaleDateString()}
                                     </span>
                                 </div>
 
@@ -85,7 +87,7 @@ const Conversations = () => {
                                             {conversation.last_message.content.length > 50 ? '...' : ''}
                                         </p>
                                         <span className='message-date'>
-                                            {new Date(conversation.last_message.created_at)
+                                            {new Date(conversation.last_message.date_created)
                                             .toLocaleDateString()}
                                         </span>
                                     </div>

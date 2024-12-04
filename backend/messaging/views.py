@@ -74,7 +74,7 @@ class StartConversationView(APIView):
             status=status.HTTP_201_CREATED
         )
 
-class MessageView(APIView):
+class ConversationMessageView(APIView):
     permission_classes = [IsAuthenticated]
     
     # List all messages in the conversation
@@ -84,7 +84,7 @@ class MessageView(APIView):
         except Conversation.DoesNotExist:
             return Response({"error": "Conversation not found"}, status=status.HTTP_404_NOT_FOUND)
         
-        messages = conversation.messages.all()
+        messages = Message.objects.filter(conversation=conversation).order_by('date_created') # retrieve all messages ordered by most recent
         serializer = MessageSerializer(messages, many=True)
         return Response(serializer.data)
     

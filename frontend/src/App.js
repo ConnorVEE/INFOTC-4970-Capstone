@@ -5,6 +5,7 @@ import Account from './pages/AccountPage.js';
 import Login from './pages/Login.js';
 import Home from './pages/Home.js';
 import Conversations from './pages/Conversations.js';
+import Messages from './pages/Messages.js';
 import Sell from './components/Sell';
 import Products from './components/Products';
 import ProtectedRoute from './utils/ProtectedRoute.js'
@@ -87,6 +88,12 @@ function App() {
           <Route path="/conversations" element={
               <ProtectedRoute>
                   <Conversations />
+              </ProtectedRoute>
+          } />
+
+          <Route path="/conversations/:conversationId/messages" element={
+              <ProtectedRoute>
+                  <Messages />
               </ProtectedRoute>
           } />
 
