@@ -18,21 +18,20 @@ class ListingCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        # Create the listing using the serializer
+        # Include 'request' in the serializer context
         serializer = ListingSerializer(data=request.data, context={'request': request})
         
         if serializer.is_valid():
             # Assign the authenticated user to the listing
-            serializer.save(user=request.user) 
-
-            # Save listing to the database
-            serializer.save()  
+            serializer.save(user=request.user)  # This saves the listing
+            
             return Response({ 
                 "message": "Listing created successfully.", 
                 "listing": serializer.data},
                 status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
         
 
 class ListingListView(ListAPIView):
@@ -69,48 +68,6 @@ class ListingImageUploadView(APIView):
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-# Views for Bookmarking
-# class FavoriteListingView(APIView):
-
-#     permission_classes = [IsAuthenticated]
-
-#     # Bookmark a listing
-#     def post(self, request, id):
-#         try:
-#             listing = Listing.objects.get(id=id)
-#         except Listing.DoesNotExist:
-#             raise NotFound("Listing not found.")
-
-#         # Either get the existing favorite or create a new one
-#         favorite, created = Favorite.objects.get_or_create(user=request.user, listing=listing)
-
-#         if not created:
-#             # If the favorite already exists, notify the user (optional)
-#             return Response(
-#                 {"detail": "You have already favorited this listing."},
-#                 status=status.HTTP_200_OK
-#             )
-
-#         serializer = FavoriteSerializer(favorite)
-#         return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-#     # Remove a bookmark
-#     def delete(self, request, id):
-
-#         try:
-#             listing = Listing.objects.get(id=id)
-
-#         except Listing.DoesNotExist:
-#             raise NotFound("Listing not found.")
-
-#         # Check if the favorite exists
-#         favorite = Favorite.objects.filter(user=request.user, listing=listing).first()
-#         if not favorite:
-#             raise NotFound("Favorite not found.")
-
-#         # Delete the favorite
-#         favorite.delete()
-#         return Response({"message": "Favorite removed successfully."}, status=status.HTTP_204_NO_CONTENT)
 
 class FavoriteListingView(APIView):
     permission_classes = [IsAuthenticated]
