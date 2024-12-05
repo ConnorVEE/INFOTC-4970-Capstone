@@ -19,7 +19,7 @@ const CreateListing = () => {
         setErrorMessage('');
 
         try {
-            const response = await axiosInstance.post('create/', {
+            const response = await axiosInstance.post('/listings/create/', {
                 title,
                 description,
                 price,
@@ -27,8 +27,8 @@ const CreateListing = () => {
             });
 
             // On success, navigate to the image upload page with listing ID
-            const listingId = response.data.listing.id;
-            navigate(`/add-images/${listingId}`);
+            // const listingId = response.data.listing.id;
+            navigate(`/home`);
         } catch (error) {
             console.error('Error creating listing:', error);
             setErrorMessage('Failed to create listing. Please try again.');
